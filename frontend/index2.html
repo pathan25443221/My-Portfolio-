@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intekhab Pathan — Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600;700;900&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Anime Dusk & Maroon Palette */
+            --cream:    #2A1621; /* Rich maroon dark */
+            --cream-2:  #3D1E2D; /* Lighter maroon */
+            --cream-3:  #6D213C; /* Midline dusk */
+            --paper:    #0D0408; /* Deepest violet/black for silhouettes */
+            
+            --ink:      #FFF0E6; /* Sunset glow white/peach */
+            --ink-light:#E2B4BD; /* Rose gold / Muted pink */
+            --rule:     rgba(226, 180, 189, 0.15); /* Soft rose border */
+            
+            /* Anime Accent Colors */
+            --red:      #E63946; /* Anime sunset red */
+            --orange:   #F4A261; /* Golden hour orange */
+            --yellow:   #FFE066; /* Sun yellow */
+            --green:    #A8C256; /* Golden grass green */
+            --teal:     #6A9C89; /* Muted dusk teal */
+            --blue:     #6D88B3; /* Dusk sky blue */
+            --purple:   #8338EC; /* Dusk purple */
+            --pink:     #FFB5A7; /* Coral pink */
+
+            /* Glowing Gradients */
+            --theme-grad-h: linear-gradient(90deg, var(--purple) 0%, var(--red) 50%, var(--orange) 100%);
+            --theme-grad-v: linear-gradient(180deg, transparent 0%, var(--purple) 20%, var(--red) 50%, var(--orange) 80%, transparent 100%);
+            --theme-solid-h: linear-gradient(90deg, var(--purple) 0%, var(--red) 50%, var(--orange) 100%);
+        }
+
+        /* Native Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Ensures the fixed navbar doesn't cover section headers */
+        section { scroll-margin-top: 60px; }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Source Sans 3', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 10px; }
+
+        /* ── TYPOGRAPHY ── */
+        .display-xl {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 600;
+            line-height: 0.92;
+            letter-spacing: -0.02em;
+        }
+        .display-lg {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+            font-weight: 600;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+        }
+        /* Hint of color: Gradient Italic Text in Headers */
+        .display-lg em {
+            background: var(--theme-grad-h);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-style: italic;
+        }
+
+        .label-caps {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+        }
+        
+        /* Streamlined Body Text */
+        .body-text {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.75;
+            font-weight: 300;
+            color: rgba(255, 240, 230, 0.7);
+            letter-spacing: 0.01em;
+        }
+        .body-text strong { font-weight: 500; color: var(--ink); }
+
+        /* ── THEME CLASSES ── */
+        .theme-grad-v { background: var(--theme-grad-v); }
+        .theme-grad-h { background: var(--theme-grad-h); }
+        .theme-solid-h { background: var(--theme-solid-h); }
+
+        /* ── DYNAMIC GLOWING BRANCHES & WRAPPERS ── */
+        .theme-branches { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; mix-blend-mode: screen; opacity: 0.35; }
+        .theme-branches-wrap { position: absolute; top: -96px; bottom: -96px; left: 40px; right: 40px; pointer-events: none; z-index: -1; mix-blend-mode: screen; opacity: 0.35; }
+        .branch-line-h { position: absolute; left: 50%; right: auto; width: 100vw; margin-left: -50vw; height: 1.5px; background: var(--theme-grad-h); transform: scaleX(0); opacity: 0; pointer-events: none; z-index: -1; box-shadow: 0 0 10px var(--red); }
+        .branch-line-v { position: absolute; top: 0; bottom: 0; width: 1.5px; background: var(--theme-grad-v); transform: scaleY(0); opacity: 0; pointer-events: none; z-index: -1; box-shadow: 0 0 10px var(--purple); }
+
+        /* ── ANIMATED SVGS ── */
+        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+        @keyframes pulse-soft { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 8px var(--orange)); } }
+        @keyframes float-svg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes bounce-svg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px) scaleY(1.05); } }
+        @keyframes wheel-scroll { 0% { transform: translateY(-4px); opacity: 1; } 100% { transform: translateY(6px); opacity: 0; } }
+
+        .svg-spin { animation: spin-slow 15s linear infinite; }
+        .svg-pulse { animation: pulse-soft 3s ease-in-out infinite; }
+        .svg-float { animation: float-svg 4s ease-in-out infinite; }
+        .svg-bounce { animation: bounce-svg 2s ease-in-out infinite; }
+        .svg-wheel { animation: wheel-scroll 1.5s ease-in-out infinite; }
+
+        /* ── NAV ── */
+        #navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(26, 12, 20, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--rule); height: 60px; display: flex; align-items: center;
+        }
+        .nav-inner {
+            max-width: 1152px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; width: 100%;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; transition: transform 0.3s; }
+        .nav-logo:hover { transform: scale(1.05); }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-links a {
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-light);
+            text-decoration: none; transition: color 0.3s, text-shadow 0.3s;
+        }
+        .nav-links a:hover { color: var(--orange); text-shadow: 0 0 8px rgba(255, 138, 91, 0.4); }
+
+        /* Mobile nav */
+        #mobile-btn {
+            display: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; background: none; border: 1px solid var(--rule); padding: 5px 12px; cursor: pointer; color: var(--ink); border-radius: 4px;
+        }
+        #mobile-menu {
+            display: none; flex-direction: column; background: var(--paper); border-bottom: 1px solid var(--rule); padding: 0 40px 20px;
+        }
+        #mobile-menu a {
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-light);
+            text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--rule); display: block;
+        }
+
+        /* ── ANIME HERO ATMOSPHERE ── */
+        #hero {
+            position: relative; min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: flex-end; overflow: hidden; padding-top: 60px; 
+            /* Epic Sunset Gradient Sky */
+            background: linear-gradient(180deg, #18091C 0%, #461439 35%, #87203E 60%, #D44E3D 80%, #F5A65B 100%);
+        }
+
+        /* Light Rays */
+        .light-rays {
+            position: absolute; top: 0; right: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(45deg, transparent 0%, rgba(255,224,102,0.03) 5%, transparent 10%);
+            transform-origin: bottom right; pointer-events: none; z-index: 0; mix-blend-mode: screen;
+            animation: rays-shift 20s ease-in-out infinite alternate;
+        }
+        @keyframes rays-shift { 0% { transform: rotate(0deg) scale(1); } 100% { transform: rotate(5deg) scale(1.1); } }
+        
+        /* Sun Wrappers for safe parallax */
+        .hero-sun-wrap {
+            position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            display: flex; justify-content: center; align-items: flex-end; padding-bottom: 15vh;
+        }
+        .hero-sun-glow {
+            position: absolute;
+            width: 70vw; max-width: 700px; height: 70vw; max-height: 700px;
+            background: radial-gradient(circle, rgba(255, 210, 117, 0.8) 0%, rgba(255, 138, 91, 0.6) 40%, rgba(255, 77, 77, 0.3) 70%, transparent 100%);
+            border-radius: 50%; filter: blur(40px);
+        }
+        .hero-sun-core {
+            position: absolute;
+            width: 35vw; max-width: 350px; height: 35vw; max-height: 350px;
+            background: linear-gradient(180deg, #FFF0E6 0%, #FFD275 60%, #FF8A5B 100%);
+            border-radius: 50%; box-shadow: 0 0 80px #FFD275; margin-bottom: 3vh;
+        }
+
+        .anime-stars {
+            position: absolute; top: 0; left: 0; width: 100%; height: 50%; z-index: 0;
+            background-image: 
+                radial-gradient(1.5px 1.5px at 15% 25%, #FFF0E6 100%, transparent),
+                radial-gradient(1px 1px at 35% 45%, #FFF0E6 100%, transparent),
+                radial-gradient(2.5px 2.5px at 55% 15%, #FFF0E6 100%, transparent),
+                radial-gradient(1px 1px at 75% 55%, #FFF0E6 100%, transparent),
+                radial-gradient(1.5px 1.5px at 85% 30%, #FFF0E6 100%, transparent);
+            opacity: 0; animation: twinkle 5s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle { 0% { opacity: 0.1; } 100% { opacity: 0.8; } }
+
+        .shooting-star {
+            position: absolute; top: 0; left: 70%; z-index: 0; width: 3px; height: 120px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9), #FFF);
+            border-radius: 50%; transform: rotate(45deg); opacity: 0; animation: shooting 12s infinite; filter: drop-shadow(0 0 5px #FFF);
+        }
+        @keyframes shooting {
+            0% { transform: translate(0, 0) rotate(45deg) scale(0); opacity: 0; }
+            3% { transform: translate(-20vw, 20vw) rotate(45deg) scale(1); opacity: 1; }
+            8% { transform: translate(-40vw, 40vw) rotate(45deg) scale(0); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Landscape SVGs Wrappers */
+        .landscape-container { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+        .layer-wrap { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .layer-svg { position: absolute; bottom: -5%; left: -5%; width: 110%; height: 110%; }
+
+        /* Floating Golden Embers */
+        .ember {
+            position: absolute; background: var(--yellow); border-radius: 50%; pointer-events: none;
+            filter: blur(1px); opacity: 0; animation: float-up var(--dur) ease-in infinite;
+            box-shadow: 0 0 8px var(--orange);
+        }
+        @keyframes float-up {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            20% { opacity: 0.8; }
+            50% { transform: translateY(-50px) translateX(20px) scale(1.2); }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-120px) translateX(-20px) scale(0); opacity: 0; }
+        }
+
+        .hero-bg-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(10rem, 22vw, 20rem); font-weight: 600; line-height: 1; letter-spacing: -0.04em; color: rgba(255, 209, 102, 0.05); position: absolute; left: 5%; top: 40%; transform: translateY(-50%); user-select: none; pointer-events: none; z-index: 0; mix-blend-mode: overlay;}
+        .hero-content { position: relative; z-index: 10; max-width: 1152px; margin: 0 auto; padding: 0 40px; width: 100%; padding-bottom: 0; }
+        .hero-overline { margin-bottom: 32px; color: var(--ink); text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .hero-name { text-shadow: 0 4px 16px rgba(0,0,0,0.6); }
+        .hero-bar { position: relative; z-index: 10; margin-top: 64px; border-top: 1px solid rgba(226, 180, 189, 0.2); background: rgba(18, 6, 16, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .hero-meta-row { max-width: 1152px; margin: 0 auto; padding: 24px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+        .hero-stats { display: flex; align-items: center; gap: 36px; flex-wrap: wrap; }
+        .hero-stat-value { font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; box-shadow: 0 0 8px var(--green); }
+        .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; padding: 11px 26px; border: 1px solid var(--rule);
+            color: var(--ink); background: rgba(26, 12, 20, 0.5); cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; position: relative; overflow: hidden; backdrop-filter: blur(4px);
+        }
+        .btn:hover { background: var(--red); border-color: var(--red); color: var(--paper); box-shadow: 0 4px 16px rgba(230, 57, 70, 0.4); text-shadow: none; }
+        .btn-filled { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .btn-filled:hover { background: transparent; color: var(--ink); box-shadow: 0 0 10px rgba(255, 240, 230, 0.2); }
+        .magnetic-wrap { display: inline-block; }
+        .scroll-indicator { position: absolute; bottom: 30px; right: 40px; z-index: 20; color: var(--ink); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.8; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+        /* ── TICKER ── */
+        .ticker-wrap { overflow: hidden; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--cream); padding: 11px 0; }
+        .ticker-inner { display: flex; width: max-content; animation: ticker 32s linear infinite; white-space: nowrap; }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .ticker-item { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-light); margin-right: 32px; }
+
+        /* ── SECTION WRAPPER ── */
+        .section-inner { max-width: 1152px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 10; }
+        .section-header { position: relative; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 32px; margin-bottom: 56px; border-bottom: 1px solid var(--rule); }
+        .section-label { color: var(--orange); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+
+        /* ── BENTO GRID ── */
+        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .bento-item { background: var(--cream); border: 1px solid var(--rule); padding: 32px; display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .bento-item:hover { transform: translateY(-4px); border-color: var(--red); box-shadow: 0 12px 30px rgba(230, 57, 70, 0.08); background: var(--cream-2); }
+        .bento-large { grid-column: span 2; grid-row: span 2; justify-content: space-between; }
+        .bento-wide { grid-column: span 2; }
+        .bento-icon-bg { position: absolute; right: -5%; bottom: -5%; opacity: 0.05; width: 160px; height: 160px; pointer-events: none; transition: opacity 0.4s, transform 0.4s; color: var(--ink); }
+        .bento-item:hover .bento-icon-bg { opacity: 0.15; transform: scale(1.1) rotate(5deg); color: var(--orange); }
+
+        /* ── ELEGANT SKILLS ── */
+        .skills-canvas { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; padding: 20px 0; }
+        .skills-canvas:hover .skill-text { opacity: 0.2; }
+        .skill-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 500; color: var(--ink); transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s, text-shadow 0.3s; cursor: default; line-height: 1; display: flex; align-items: center; gap: 10px; }
+        .skill-text:hover { opacity: 1 !important; transform: scale(1.05); color: var(--red); text-shadow: 0 0 16px rgba(230,57,70,0.4); }
+        .skill-pill { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--rule); border-radius: 4px; color: var(--ink-light); transition: all 0.3s ease; cursor: default; }
+        .skills-canvas:hover .skill-pill { opacity: 0.2; }
+        .skill-pill:hover { opacity: 1 !important; background: var(--orange); color: var(--paper); border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(244,162,97,0.3); }
+
+        /* ── CARDS & TAGS ── */
+        .mac-card { background: var(--cream); border: 1px solid var(--rule); transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .mac-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 0 0 1px var(--orange); transform: translate(-2px, -2px); border-color: var(--orange); }
+        .mac-card-icon { transition: transform 0.4s ease; }
+        .mac-card:hover .mac-card-icon { transform: scale(1.1) rotate(-5deg); filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
+        
+        .tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; font-weight: 400; letter-spacing: 0.08em; padding: 3px 9px; border: 1px solid var(--rule); color: var(--ink-light); background: rgba(255,255,255,0.03); text-transform: uppercase; display: inline-block; transition: color 0.3s, border-color 0.3s, background 0.3s; }
+        .mac-card:hover .tag { border-color: var(--orange); color: var(--ink); background: rgba(244,162,97,0.1); }
+        .tag-red { border-color: var(--red); color: var(--red); background: rgba(230,57,70,0.08); }
+        .tag-white { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.08); }
+
+        /* ── INPUTS ── */
+        .mac-input { background: transparent; border: none; border-bottom: 1px solid var(--rule); color: var(--ink); font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; font-weight: 300; outline: none; width: 100%; padding: 10px 0; transition: border-color 0.2s, box-shadow 0.2s; }
+        .mac-input:focus { border-bottom-color: var(--orange); box-shadow: 0 4px 0 -3px var(--orange); }
+        .mac-input::placeholder { color: var(--ink-light); font-weight: 300; opacity: 0.5; }
+        textarea:focus { border-color: var(--orange) !important; box-shadow: inset 0 0 0 1px var(--orange); }
+
+        /* ── STAT NUM ── */
+        .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
+
+        /* ── GSAP SETUP CLASSES ── */
+        .gsap-fade-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
+        .gsap-fade-in { opacity: 0; will-change: opacity; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) { 
+            .bento-grid { grid-template-columns: repeat(2, 1fr); } 
+            .proj-grid, .edu-grid { grid-template-columns: 1fr !important; } 
+            .proj-grid-2 { grid-template-columns: 1fr !important; } 
+            .hide-on-mobile-grid { display: none !important; }
+        }
+        @media (max-width: 768px) {
+            .nav-inner { padding: 0 20px; } .nav-links, .nav-cta { display: none; } #mobile-btn { display: block; } .hero-content { padding: 0 20px; } .section-inner { padding: 0 20px; } .hero-meta-row { padding: 20px; } #mobile-menu { padding: 0 20px 20px; }
+            .display-xl { font-size: clamp(3rem, 13vw, 6rem); } .bento-grid { grid-template-columns: 1fr; } .bento-large, .bento-wide { grid-column: span 1; grid-row: span 1; } .exp-row { grid-template-columns: 1fr !important; gap: 12px !important; } .contact-grid { grid-template-columns: 1fr !important; gap: 48px !important; } .scroll-indicator { display: none; }
+            .hero-sun-glow { width: 120vw; height: 120vw; bottom: 5%; } .hero-sun-core { width: 60vw; height: 60vw; bottom: 10%; }
+            .theme-branches-wrap { left: 20px; right: 20px; } .hide-on-mobile-grid-sm { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<header>
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <div class="theme-grad-v" style="width:6px;height:24px;border-radius:99px;flex-shrink:0;"></div>
+                <span style="font-family:'Source Sans 3',sans-serif;font-weight:500;font-size:0.9rem;color:var(--ink);">Intekhab Pathan</span>
+            </a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#education">Education</a>
+            </div>
+            <div class="magnetic-wrap">
+                <a href="#contact" class="nav-cta btn" style="padding: 8px 20px;">
+                    Contact
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <button id="mobile-btn" onclick="toggleMenu()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+        <div id="mobile-menu">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+</header>
+
+<!-- ═══════════ HERO (SCENIC ANIME IMAGE REPLICA) ═══════════ -->
+<section id="hero">
+    <!-- Atmosphere & Sky -->
+    <div class="light-rays"></div>
+    <div class="anime-stars"></div>
+    <div class="shooting-star"></div>
+
+    <!-- Centered Glowing Sun (Wrapped for independent parallax) -->
+    <div class="hero-sun-wrap gsap-fade-in">
+        <div class="hero-sun-glow"></div>
+        <div class="hero-sun-core"></div>
+    </div>
+
+    <!-- Scenic Landscape Layers (1920x1080 SVG Parallax System) -->
+    <div class="landscape-container">
+        
+        <!-- Layer 1: Distant Layer (Hills and Tiny Trees) -->
+        <div class="layer-wrap layer-far-wrap">
+            <svg class="layer-svg layer-far" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice">
+                <path d="M0,900 Q400,750 960,850 T1920,800 L1920,1080 L0,1080 Z" fill="var(--cream-3)" opacity="0.6"/>
+                <!-- Tiny Distant Silhouettes -->
+                <circle cx="400" cy="830" r="15" fill="var(--cream-3)" opacity="0.8"/>
+                <circle cx="430" cy="835" r="12" fill="var(--cream-3)" opacity="0.8"/>
+                <circle cx="1100" cy="860" r="20" fill="var(--cream-3)" opacity="0.8"/>
+                <circle cx="1130" cy="865" r="15" fill="var(--cream-3)" opacity="0.8"/>
+            </svg>
+        </div>
+
+        <!-- Layer 2: Midground Layer (Tall Tree & Mid Hills) -->
+        <div class="layer-wrap layer-mid-wrap">
+            <svg class="layer-svg layer-mid" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice">
+                <path d="M0,950 Q600,1050 1200,900 T1920,950 L1920,1080 L0,1080 Z" fill="var(--cream-2)" opacity="0.9"/>
+                <!-- Center-left medium tree -->
+                <path d="M 680,930 L 670,700 Q 660,600 680,550 L 695,550 L 690,930 Z" fill="var(--cream-2)"/>
+                <circle cx="680" cy="550" r="45" fill="var(--cream-2)"/>
+                <circle cx="640" cy="580" r="35" fill="var(--cream-2)"/>
+                <circle cx="720" cy="590" r="40" fill="var(--cream-2)"/>
+                <circle cx="680" cy="510" r="30" fill="var(--cream-2)"/>
+                <!-- Tall right tree -->
+                <path d="M 1400,920 L 1380,450 Q 1370,300 1400,250 L 1420,250 Q 1410,400 1420,920 Z" fill="var(--cream-2)"/>
+                <circle cx="1400" cy="250" r="90" fill="var(--cream-2)"/>
+                <circle cx="1320" cy="300" r="70" fill="var(--cream-2)"/>
+                <circle cx="1480" cy="320" r="80" fill="var(--cream-2)"/>
+                <circle cx="1350" cy="400" r="60" fill="var(--cream-2)"/>
+                <circle cx="1450" cy="430" r="65" fill="var(--cream-2)"/>
+                <circle cx="1400" cy="180" r="70" fill="var(--cream-2)"/>
+            </svg>
+        </div>
+
+        <!-- Layer 3: Foreground Layer (Detailed Grass, Character, Massive Left Tree) -->
+        <div class="layer-wrap layer-front-wrap">
+            <svg class="layer-svg layer-front" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice">
+                <!-- Smooth Hill Base to blend into the next section perfectly -->
+                <path d="M 0,1080 L 1920,1080 L 1920,950 Q 1400,1000 960,980 T 0,950 Z" fill="var(--paper)"/>
+                
+                <!-- Left Massive Tree (Trunk & Canopy) -->
+                <path d="M -50,1080 L 150,1080 C 180,800 200,400 400,-50 L -50,-50 Z" fill="var(--paper)"/>
+                <path d="M 150,300 Q 300,350 450,550 Q 430,400 230,250 Z" fill="var(--paper)"/>
+                <path d="M 100,150 Q 300,200 480,400 Q 430,250 180,50 Z" fill="var(--paper)"/>
+                <circle cx="150" cy="50" r="100" fill="var(--paper)"/>
+                <circle cx="300" cy="100" r="120" fill="var(--paper)"/>
+                <circle cx="400" cy="200" r="90" fill="var(--paper)"/>
+                <circle cx="200" cy="250" r="110" fill="var(--paper)"/>
+                <circle cx="350" cy="350" r="70" fill="var(--paper)"/>
+                <circle cx="100" cy="300" r="80" fill="var(--paper)"/>
+                
+                <!-- Anime Character Silhouette (Sitting in grass with staff/sword) -->
+                <g transform="translate(300, 910)">
+                   <circle cx="20" cy="15" r="12" fill="var(--paper)"/> 
+                   <path d="M 20,25 Q 35,45 10,70 L 10,80 L -10,80 L 5,45 Q 10,35 20,25 Z" fill="var(--paper)"/> 
+                   <path d="M 20,30 Q 30,50 45,40" stroke="var(--paper)" stroke-width="4" fill="none" stroke-linecap="round"/> 
+                   <line x1="45" y1="-10" x2="45" y2="100" stroke="var(--paper)" stroke-width="4" stroke-linecap="round"/> 
+                   <path d="M -5,50 Q -30,60 -40,40 Q -25,70 5,75 Z" fill="var(--paper)"/>
+                </g>
+
+                <!-- Detailed Sharp Foreground Grass Blades -->
+                <path d="M 100,1080 L 120,900 L 140,1080 Z" fill="var(--paper)"/>
+                <path d="M 180,1080 Q 220,850 250,800 Q 240,900 230,1080 Z" fill="var(--paper)"/>
+                <path d="M 400,1080 Q 420,950 450,900 Q 430,980 440,1080 Z" fill="var(--paper)"/>
+                <path d="M 550,1080 Q 520,920 480,850 Q 530,950 580,1080 Z" fill="var(--paper)"/>
+                <path d="M 700,1080 L 720,930 L 740,1080 Z" fill="var(--paper)"/>
+                <path d="M 850,1080 Q 880,950 900,880 Q 890,960 880,1080 Z" fill="var(--paper)"/>
+                <path d="M 1050,1080 Q 1020,900 980,820 Q 1040,920 1080,1080 Z" fill="var(--paper)"/>
+                <path d="M 1200,1080 L 1220,950 L 1240,1080 Z" fill="var(--paper)"/>
+                <path d="M 1400,1080 Q 1430,920 1460,860 Q 1440,950 1450,1080 Z" fill="var(--paper)"/>
+                <path d="M 1600,1080 Q 1580,900 1540,830 Q 1590,930 1620,1080 Z" fill="var(--paper)"/>
+                <path d="M 1750,1080 L 1770,960 L 1790,1080 Z" fill="var(--paper)"/>
+                <path d="M 1850,1080 Q 1880,900 1920,840 Q 1890,950 1900,1080 Z" fill="var(--paper)"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Restored Glowing Embers Container -->
+    <div class="embers-container" style="position:absolute; inset:0; z-index: 2; pointer-events: none; overflow: hidden;"></div>
+
+    <span class="hero-bg-num gsap-fade-in" id="hero-num">01</span>
+    <div class="theme-grad-h gsap-fade-in" style="position:absolute;top:60px;left:0;right:0;height:4px;z-index:10;" id="hero-bar-top"></div>
+
+    <div class="hero-content">
+        <div class="hero-overline label-caps gsap-fade-up" style="display: flex; align-items: center; gap: 10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" class="svg-spin"><path d="M12 2v20M17 5l-10 14M22 12H2M19 19L5 5"/></svg>
+            Full Stack Developer
+            <span style="color:rgba(226, 180, 189, 0.4);">—</span>
+            AI &amp; Automation
+            <span style="color:rgba(226, 180, 189, 0.4);">—</span>
+            Pune, India
+        </div>
+        <div class="hero-name gsap-fade-up">
+            <h1 class="display-xl" style="color:var(--ink)">
+                Intekhab<br>
+                <em style="font-weight:300;color:var(--ink-light)">Pathan.</em>
+            </h1>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator gsap-fade-in">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="7" y="4" width="10" height="16" rx="5"/>
+            <path d="M12 8v4" stroke-width="2" class="svg-wheel"/>
+        </svg>
+    </div>
+
+    <div class="hero-bar">
+        <div class="theme-solid-h gsap-fade-in" style="height: 6px; width: 100%;"></div>
+        <div class="hero-meta-row gsap-fade-up">
+            <div class="hero-stats">
+                <div class="hero-stat-item">
+                    <div class="label-caps">Status</div>
+                    <div class="hero-stat-value"><span class="status-dot"></span>Available for work</div>
+                </div>
+                <div class="hero-stat-item">
+                    <div class="label-caps">Company</div>
+                    <div class="hero-stat-value">Actly · Remote</div>
+                </div>
+                <div class="hero-stat-item">
+                    <div class="label-caps">Focus</div>
+                    <div class="hero-stat-value">AI · Automation · Full Stack</div>
+                </div>
+            </div>
+            <div class="hero-btns">
+                <div class="magnetic-wrap"><a href="#projects" class="btn btn-filled">View Work</a></div>
+                <div class="magnetic-wrap"><a href="#contact" class="btn">Get in Touch</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+    <div class="ticker-inner">
+        <span class="ticker-item">Python</span><span class="ticker-item" style="color:var(--purple)">◆</span>
+        <span class="ticker-item">FastAPI</span><span class="ticker-item" style="color:var(--red)">◆</span>
+        <span class="ticker-item">n8n Automation</span><span class="ticker-item" style="color:var(--orange)">◆</span>
+        <span class="ticker-item">AI Agents</span><span class="ticker-item" style="color:var(--purple)">◆</span>
+        <span class="ticker-item">LangChain</span><span class="ticker-item" style="color:var(--red)">◆</span>
+        <span class="ticker-item">Prompt Engineering</span><span class="ticker-item" style="color:var(--orange)">◆</span>
+        <span class="ticker-item">MCP Tools</span><span class="ticker-item" style="color:var(--purple)">◆</span>
+        <span class="ticker-item">WhatsApp API</span><span class="ticker-item" style="color:var(--red)">◆</span>
+        <span class="ticker-item">Java</span><span class="ticker-item" style="color:var(--orange)">◆</span>
+        <span class="ticker-item">MySQL</span><span class="ticker-item" style="color:var(--purple)">◆</span>
+        <span class="ticker-item">PostgreSQL</span><span class="ticker-item" style="color:var(--red)">◆</span>
+        <span class="ticker-item">OpenCV</span><span class="ticker-item" style="color:var(--orange)">◆</span>
+        
+        <!-- Duplicate for continuous loop -->
+        <span class="ticker-item">Python</span><span class="ticker-item" style="color:var(--purple)">◆</span>
+        <span class="ticker-item">FastAPI</span><span class="ticker-item" style="color:var(--red)">◆</span>
+        <span class="ticker-item">n8n Automation</span><span class="ticker-item" style="color:var(--orange)">◆</span>
+        <span class="ticker-item">AI Agents</span><span class="ticker-item" style="color:var(--purple)">◆</span>
+        <span class="ticker-item">LangChain</span><span class="ticker-item" style="color:var(--red)">◆</span>
+        <span class="ticker-item">Prompt Engineering</span><span class="ticker-item" style="color:var(--orange)">◆</span>
+    </div>
+</div>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about" style="padding:96px 0;background:var(--paper); position: relative;">
+    <div class="section-inner">
+        <!-- Strictly bounded dynamic wrapper avoids clipping text on 1920x1080 -->
+        <div class="theme-branches-wrap">
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 0%; transform-origin: top;"></div>
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 100%; transform-origin: bottom;"></div>
+        </div>
+
+        <div class="section-header">
+            <!-- Precise bottom horizontal line aligns gracefully with border layout -->
+            <div class="branch-line-h" style="bottom: -1px; transform-origin: center;"></div>
+            
+            <div class="gsap-fade-up">
+                <div class="label-caps section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    // 001 — About
+                </div>
+                <h2 class="display-lg">About<br><em>the developer.</em></h2>
+            </div>
+        </div>
+
+        <!-- Clean Bento Grid -->
+        <div class="bento-grid gsap-fade-up">
+            
+            <!-- Large Bio Card -->
+            <div class="bento-item bento-large">
+                <svg class="bento-icon-bg svg-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2v20M17 5l-10 14M22 12H2M19 19L5 5"/></svg>
+                <div>
+                    <div style="width:40px;height:40px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:24px;border-radius:4px;box-shadow: 0 0 16px rgba(255, 240, 230, 0.1);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <p class="body-text">
+                        Aspiring Full Stack Developer venturing into AI and Automation. I specialize in integrating complex services and building seamless workflows using tools like <strong>n8n</strong> and <strong>Gumloop</strong>. 
+                        <br><br>
+                        My foundation lies in building robust web applications with <strong>FastAPI</strong> and <strong>Django</strong>, combined with a passion for leveraging AI to craft thoughtful UI/UX experiences. Currently at Actly, working directly with leadership on innovative AI agent solutions.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Card -->
+            <div class="bento-item" style="background: var(--ink); color: var(--paper);">
+                <svg class="bento-icon-bg svg-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                <div class="label-caps" style="color: var(--paper); opacity: 0.6; margin-bottom: 24px;">Experience</div>
+                <div style="margin-bottom: 24px;">
+                    <div class="stat-num" style="color: var(--cream);">5+</div>
+                    <div class="label-caps" style="color: var(--paper); margin-top:8px;">Projects Built</div>
+                </div>
+                <div style="border-top: 1px solid rgba(0,0,0,0.1); padding-top: 24px;">
+                    <div class="stat-num" style="color: var(--red);">01</div>
+                    <div class="label-caps" style="color: var(--paper); margin-top:8px;">Enterprise Role</div>
+                </div>
+            </div>
+
+            <!-- Location Card -->
+            <div class="bento-item" style="background: var(--cream-2); justify-content: space-between;">
+                <svg class="bento-icon-bg svg-float" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/></svg>
+                
+                <div class="label-caps" style="margin-bottom: 16px;">Base of Operations</div>
+                <div style="font-family:'Cormorant Garamond',serif; font-size: 2.2rem; font-weight: 500; line-height: 1; color: var(--ink);">Pune,<br><em>India.</em></div>
+                <div style="margin-top: 24px; display: flex; gap: 4px;">
+                    <div style="flex:1; height: 3px; background: var(--purple); opacity:0.8;"></div>
+                    <div style="flex:1; height: 3px; background: var(--red); opacity:0.8;"></div>
+                    <div style="flex:1; height: 3px; background: var(--orange); opacity:0.8;"></div>
+                </div>
+            </div>
+
+            <!-- Specs / Details -->
+            <div class="bento-item bento-wide" style="justify-content: center;">
+                <div style="display:grid;grid-template-columns:100px 1fr;padding:12px 0;border-bottom:1px solid var(--rule);align-items:center;">
+                    <span class="label-caps" style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> Email</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;font-weight:400;color:var(--ink-light);">intekhabpathan125@gmail.com</span>
+                </div>
+                <div style="display:grid;grid-template-columns:100px 1fr;padding:12px 0;border-bottom:1px solid var(--rule);align-items:center;">
+                    <span class="label-caps" style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Phone</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.85rem;font-weight:400;color:var(--ink-light);">+91 8871171713</span>
+                </div>
+                <div style="display:grid;grid-template-columns:100px 1fr;padding:12px 0;align-items:center;">
+                    <span class="label-caps" style="display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Status</span>
+                    <span style="font-family:'Source Sans 3',sans-serif;font-size:0.95rem;font-weight:400;color:var(--ink);display:flex;align-items:center;gap:8px;">
+                        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;box-shadow: 0 0 8px var(--green);"></span>
+                        Ready for deployment
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ EXPERIENCE ═══════════ -->
+<section id="experience" style="padding:96px 0;background:var(--cream); position: relative;">
+    <div class="section-inner">
+        <!-- Follows exact dimension structure to align flawlessly -->
+        <div class="theme-branches-wrap">
+            <div class="branch-line-v hide-on-mobile-grid-sm" style="left: 180px; transform-origin: top;"></div>
+        </div>
+
+        <div class="section-header">
+            <div class="branch-line-h" style="bottom: -1px; transform-origin: right;"></div>
+            <div class="gsap-fade-up">
+                <div class="label-caps section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    // 002 — Experience
+                </div>
+                <h2 class="display-lg">Work<br><em>history.</em></h2>
+            </div>
+            <div style="text-align:right;" class="gsap-fade-up">
+                <div class="label-caps" style="margin-bottom:4px;">Working Since</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:500;">2025</div>
+            </div>
+        </div>
+
+        <div class="gsap-fade-up">
+            <!-- Company header -->
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+                <div style="width:44px;height:44px;background:var(--ink);display:flex;align-items:center;justify-content:center;border-radius:4px;box-shadow: 0 0 12px rgba(255, 240, 230, 0.1);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5" class="svg-spin">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M3 9h18M9 21V9"/>
+                    </svg>
+                </div>
+                <div>
+                    <div style="font-family:'Source Sans 3',sans-serif;font-size:1.15rem;font-weight:500;color:var(--ink);">Actly</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-light);font-size:0.95rem;">Remote · Kuwait</div>
+                </div>
+                <div class="theme-grad-v" style="width:3px;height:56px;border-radius:99px;margin-left:auto;"></div>
+            </div>
+
+            <!-- Role 1 -->
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:0;border-bottom:1px solid var(--rule);padding-bottom:36px;margin-bottom:36px;" class="exp-row">
+                <div style="padding-right:24px;padding-top:2px;">
+                    <div class="label-caps" style="margin-bottom:10px;">10/2025 — 12/2025</div>
+                    <span class="tag tag-red">Intern</span>
+                </div>
+                <div>
+                    <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:-0.01em;">Full Stack Developer Intern</div>
+                    <p class="body-text" style="max-width:640px;margin-bottom:16px;">Worked on implementing and innovating existing software. Created custom MCP tools for Notion and Slack to be integrated into AI-powered workflows.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                        <span class="tag">MCP Tools</span>
+                        <span class="tag">Notion API</span>
+                        <span class="tag">Slack API</span>
+                        <span class="tag">Workflow Automation</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role 2 -->
+            <div style="display:grid;grid-template-columns:180px 1fr;gap:0;" class="exp-row">
+                <div style="padding-right:24px;padding-top:2px;">
+                    <div class="label-caps" style="margin-bottom:10px;">01/2026 — Present</div>
+                    <span class="tag tag-red">Full-time</span>
+                </div>
+                <div>
+                    <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:-0.01em;">Full Stack Developer</div>
+                    <p class="body-text" style="max-width:640px;margin-bottom:16px;">AI Agent integration with various proprietary tools and Meta Developer tools including WhatsApp. Working directly with the Project Manager and CEO to build innovative AI solutions.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                        <span class="tag">AI Agents</span>
+                        <span class="tag">WhatsApp API</span>
+                        <span class="tag">Meta Dev Tools</span>
+                        <span class="tag">n8n</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ PROJECTS ═══════════ -->
+<section id="projects" style="padding:96px 0;background:var(--paper); position: relative;">
+    <div class="section-inner">
+        <!-- Aligns with Grid repeats identically to stop clipping texts -->
+        <div class="theme-branches-wrap">
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 33.33%; transform-origin: top;"></div>
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 66.66%; transform-origin: bottom;"></div>
+        </div>
+
+        <div class="section-header">
+            <div class="branch-line-h" style="bottom: -1px; transform-origin: left;"></div>
+            <div class="gsap-fade-up">
+                <div class="label-caps section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    // 003 — Projects
+                </div>
+                <h2 class="display-lg">Selected<br><em>projects.</em></h2>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule); position: relative;" class="proj-grid gsap-fade-up">
+            <div class="branch-line-h hide-on-mobile-grid" style="bottom: -1px; transform-origin: right;"></div>
+            <!-- P1 -->
+            <div class="mac-card" style="border:none;border-right:1px solid var(--rule);padding:32px;display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;">
+                    <div style="width:40px;height:40px;background:var(--teal);display:flex;align-items:center;justify-content:center;border-radius:4px;box-shadow: 0 0 10px rgba(106,156,137,0.4);">
+                        <svg class="mac-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    </div>
+                    <span class="label-caps">01</span>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:12px;line-height:1.3;letter-spacing:-0.01em;">Automated Data Analytics Pipeline</div>
+                <p class="body-text" style="flex:1;margin-bottom:20px;">Comprehensive n8n pipeline integrating multiple APIs to collect, process, and analyze business data in real-time. Features dynamic report generation with interactive charts via Quickchart.io.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;">
+                    <span class="tag">n8n</span><span class="tag">Gemini API</span><span class="tag">AI Agent</span>
+                </div>
+            </div>
+
+            <!-- P2 -->
+            <div style="background:var(--red);border-right:1px solid rgba(255,255,255,0.15);padding:32px;display:flex;flex-direction:column;transition:box-shadow 0.3s,transform 0.3s;" class="mac-card hover-lift">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;">
+                    <div style="width:40px;height:40px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;border-radius:4px;">
+                        <svg class="mac-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16M4 20h.01"/></svg>
+                    </div>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.6);">02</span>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:#fff;margin-bottom:12px;line-height:1.3;letter-spacing:-0.01em;">AI Content Aggregation Pipeline</div>
+                <p class="body-text" style="color:rgba(255,255,255,0.85);flex:1;margin-bottom:20px;">AI-powered content aggregation using n8n with RSS feeds and custom APIs. NLP-based classification into domains like finance, mental health, and tech. Clean JSX frontend dashboard.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;">
+                    <span class="tag tag-white">n8n</span><span class="tag tag-white">NLP</span><span class="tag tag-white">JSX</span>
+                </div>
+            </div>
+
+            <!-- P3 -->
+            <div class="mac-card" style="border:none;padding:32px;display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;">
+                    <div style="width:40px;height:40px;background:var(--blue);display:flex;align-items:center;justify-content:center;border-radius:4px;box-shadow: 0 0 10px rgba(109,136,179,0.4);">
+                        <svg class="mac-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <span class="label-caps">03</span>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:12px;line-height:1.3;letter-spacing:-0.01em;">Facial Recognition Attendance</div>
+                <p class="body-text" style="flex:1;margin-bottom:20px;">Automates attendance marking via real-time facial recognition using OpenCV's Haar Cascade and LBPH. Tkinter GUI with PostgreSQL and CSV storage.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;">
+                    <span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">PostgreSQL</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--rule);border-top:none;margin-top:0;" class="proj-grid-2 gsap-fade-up">
+            <!-- P4 -->
+            <div class="mac-card" style="border:none;border-right:1px solid var(--rule);padding:32px;display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;">
+                    <div style="width:40px;height:40px;background:var(--purple);display:flex;align-items:center;justify-content:center;border-radius:4px;box-shadow: 0 0 10px rgba(162,103,172,0.4);">
+                        <svg class="mac-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/></svg>
+                    </div>
+                    <span class="label-caps">04</span>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:12px;line-height:1.3;letter-spacing:-0.01em;">Osiris Game — Dynamic NPC</div>
+                <p class="body-text" style="flex:1;margin-bottom:20px;">Isometric game in C++ &amp; SDL3. Dynamic NPCs powered by a locally hosted LLM via n8n Webhook API calls for story progression and lore with proper session memory.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;">
+                    <span class="tag">C++</span><span class="tag">SDL3</span><span class="tag">Local LLM</span>
+                </div>
+            </div>
+
+            <!-- P5 -->
+            <div class="mac-card" style="border:none;padding:32px;display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;">
+                    <div style="width:40px;height:40px;background:var(--orange);display:flex;align-items:center;justify-content:center;border-radius:4px;box-shadow: 0 0 10px rgba(255,138,91,0.4);">
+                        <svg class="mac-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#paper" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <span class="label-caps">05</span>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:12px;line-height:1.3;letter-spacing:-0.01em;">Itinerary Planner Web App</div>
+                <p class="body-text" style="flex:1;margin-bottom:20px;">Web-based itinerary management with interactive Leaflet map for journey visualization, PDF generation, and AI-assisted suggestions via Claude.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px;">
+                    <span class="tag">Leaflet</span><span class="tag">Claude AI</span><span class="tag">Web Framework</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ SKILLS (TYPOGRAPHY REDESIGN) ═══════════ -->
+<section id="skills" style="padding:96px 0;background:var(--cream); overflow:hidden; position: relative;">
+    <div class="section-inner">
+        <div class="theme-branches-wrap">
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 0%; transform-origin: top;"></div>
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 100%; transform-origin: bottom;"></div>
+        </div>
+        
+        <!-- Giant faint background SVG -->
+        <svg viewBox="0 0 100 100" style="position: absolute; right: -10%; top: -20%; width: 60%; opacity: 0.05; mix-blend-mode: screen; pointer-events: none;" class="svg-spin" stroke="var(--ink)" stroke-width="0.2" fill="none">
+            <circle cx="50" cy="50" r="40"/>
+            <polygon points="50,10 90,90 10,90"/>
+            <polygon points="50,90 90,10 10,10"/>
+        </svg>
+
+        <div class="section-header">
+            <div class="branch-line-h" style="bottom: -1px; transform-origin: left;"></div>
+            <div class="gsap-fade-up">
+                <div class="label-caps section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    // 004 — Skills & Expertise
+                </div>
+                <h2 class="display-lg">Technical<br><em>toolkit.</em></h2>
+            </div>
+            <div style="text-align:right; max-width: 300px;" class="gsap-fade-up">
+                <p class="body-text" style="font-size: 0.95rem;">A curated selection of languages, frameworks, and AI tools I utilize to bridge logic with automation.</p>
+            </div>
+        </div>
+
+        <div class="skills-canvas gsap-fade-up">
+            <span class="skill-text">Python <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5"><path d="M12 2v20M17 5l-10 14M22 12H2M19 19L5 5"/></svg></span>
+            <span class="skill-text">n8n</span>
+            <span class="skill-text">Prompt Engineering</span>
+            <span class="skill-text">Java <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" class="svg-bounce"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span>
+            <span class="skill-text">MySQL</span>
+            <span class="skill-pill">FastAPI</span>
+            <span class="skill-text">HTML / CSS</span>
+            <span class="skill-pill">PostgreSQL</span>
+            <span class="skill-text">AI Agents <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.5" class="svg-float"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+            <span class="skill-pill">Django</span>
+            <span class="skill-text">LangChain</span>
+            <span class="skill-pill">OpenCV</span>
+            <span class="skill-pill">Gumloop</span>
+            <span class="skill-pill">MCP Tools</span>
+            <span class="skill-pill">Git</span>
+            <span class="skill-text">Automation</span>
+            <span class="skill-pill">WhatsApp API</span>
+            <span class="skill-pill">Slack API</span>
+        </div>
+        
+        <div style="margin-top: 56px; border-top: 1px solid var(--rule); padding-top: 32px;" class="gsap-fade-up">
+            <div class="label-caps" style="margin-bottom:14px;">Core Attributes</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span class="tag">Leadership</span>
+                <span class="tag">Teamwork</span>
+                <span class="tag">Adaptability</span>
+                <span class="tag">Time Management</span>
+                <span class="tag">Problem Solving</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ EDUCATION ═══════════ -->
+<section id="education" style="padding:96px 0;background:var(--paper); position: relative;">
+    <div class="section-inner">
+        <div class="theme-branches-wrap">
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 33.33%; transform-origin: top;"></div>
+            <div class="branch-line-v hide-on-mobile-grid" style="left: 66.66%; transform-origin: bottom;"></div>
+        </div>
+
+        <div class="section-header">
+            <div class="branch-line-h" style="bottom: -1px; transform-origin: center;"></div>
+            <div class="gsap-fade-up">
+                <div class="label-caps section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    // 005 — Education
+                </div>
+                <h2 class="display-lg">Academic<br><em>foundation.</em></h2>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule);" class="edu-grid gsap-fade-up">
+            <!-- MCA -->
+            <div class="mac-card" style="border:none;border-right:1px solid var(--rule);padding:36px;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;">
+                    <div style="width:52px;height:52px;background:var(--ink);display:flex;align-items:center;justify-content:center;border-radius:4px;box-shadow: 0 0 12px rgba(255, 240, 230, 0.1);">
+                        <svg class="mac-card-icon svg-float" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="label-caps" style="margin-bottom:4px;">CGPA</div>
+                        <div class="stat-num" style="color:var(--red);font-size:2.2rem; text-shadow: 0 0 12px rgba(255,77,77,0.3);">8.79</div>
+                    </div>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:-0.01em;">Master of Computer Applications</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-light);font-size:0.95rem;margin-bottom:10px;">IMED, Bharti Vidyapeeth</div>
+                <div class="label-caps">Jun 2024 — Present · Pune</div>
+            </div>
+
+            <!-- BCA -->
+            <div class="mac-card" style="border:none;border-right:1px solid var(--rule);padding:36px;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;">
+                    <div style="width:52px;height:52px;background:var(--ink);display:flex;align-items:center;justify-content:center;border-radius:4px;">
+                        <svg class="mac-card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="label-caps" style="margin-bottom:4px;">CGPA</div>
+                        <div class="stat-num" style="font-size:2.2rem; color: var(--ink);">7.8</div>
+                    </div>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:-0.01em;">Bachelor of Computer Applications</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-light);font-size:0.95rem;margin-bottom:10px;">Makhanlal Chaturvedi National University</div>
+                <div class="label-caps">Jun 2021 — May 2024 · Bhopal</div>
+            </div>
+
+            <!-- School -->
+            <div class="mac-card" style="border:none;padding:36px;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;">
+                    <div style="width:52px;height:52px;background:var(--ink);display:flex;align-items:center;justify-content:center;border-radius:4px;">
+                        <svg class="mac-card-icon svg-spin" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-45 12 12)"/></svg>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="label-caps" style="margin-bottom:4px;">Score</div>
+                        <div class="stat-num" style="font-size:2.2rem; color: var(--ink);">71%</div>
+                    </div>
+                </div>
+                <div style="font-family:'Source Sans 3',sans-serif;font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:6px;letter-spacing:-0.01em;">Science — Jr. College</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-light);font-size:0.95rem;margin-bottom:10px;">Central Academy Hr. Sec. School</div>
+                <div class="label-caps">2009 — 2021</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact" style="padding:96px 0;background:var(--cream); position: relative;">
+    <div class="section-inner">
+        <!-- Mathematically calculated to perfectly align vertically with your gap spacing -->
+        <div class="theme-branches-wrap">
+            <div class="branch-line-v hide-on-mobile-grid-sm" style="left: calc((100% - 80px) * 0.4 + 40px); transform-origin: bottom;"></div>
+        </div>
+
+        <div class="section-header">
+            <div class="branch-line-h" style="bottom: -1px; transform-origin: center;"></div>
+            <div class="gsap-fade-up">
+                <div class="label-caps section-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    // 006 — Contact
+                </div>
+                <h2 class="display-lg">Let's<br><em>connect.</em></h2>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:80px;" class="contact-grid">
+            <!-- Contact Details -->
+            <div class="gsap-fade-up">
+                <div class="label-caps" style="margin-bottom:28px;">Contact Details</div>
+                <div style="border-top:1px solid var(--rule);">
+
+                    <a href="mailto:intekhabpathan125@gmail.com" style="display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:var(--ink);transition:padding-left 0.3s, color 0.3s;" onmouseover="this.style.paddingLeft='12px'; this.style.color='var(--red)'" onmouseout="this.style.paddingLeft='0'; this.style.color='var(--ink)'">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+                            <div>
+                                <div class="label-caps" style="margin-bottom:4px;">Email</div>
+                                <div style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;font-weight:400;color:var(--ink);">intekhabpathan125@gmail.com</div>
+                            </div>
+                        </div>
+                        <span class="label-caps" style="color:var(--red);opacity:0.6;">Write →</span>
+                    </a>
+
+                    <a href="tel:+918871171713" style="display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:var(--ink);transition:padding-left 0.3s, color 0.3s;" onmouseover="this.style.paddingLeft='12px'; this.style.color='var(--orange)'" onmouseout="this.style.paddingLeft='0'; this.style.color='var(--ink)'">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <div>
+                                <div class="label-caps" style="margin-bottom:4px;">Phone</div>
+                                <div style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;font-weight:400;color:var(--ink);">+91 8871171713</div>
+                            </div>
+                        </div>
+                        <span class="label-caps" style="color:var(--orange);opacity:0.6;">Call →</span>
+                    </a>
+
+                    <a href="https://linkedin.com/in/intekhab-pathan" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:var(--ink);transition:padding-left 0.3s, color 0.3s;" onmouseover="this.style.paddingLeft='12px'; this.style.color='var(--blue)'" onmouseout="this.style.paddingLeft='0'; this.style.color='var(--ink)'">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                            <div>
+                                <div class="label-caps" style="margin-bottom:4px;">LinkedIn</div>
+                                <div style="font-family:'Source Sans 3',sans-serif;font-size:0.9rem;font-weight:500;color:var(--ink);">Intekhab Pathan</div>
+                            </div>
+                        </div>
+                        <span class="label-caps" style="color:var(--blue);opacity:0.6;">View →</span>
+                    </a>
+
+                    <a href="https://github.com/intekhab-pathan" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:20px 0;text-decoration:none;color:var(--ink);transition:padding-left 0.3s, color 0.3s;" onmouseover="this.style.paddingLeft='12px'; this.style.color='var(--purple)'" onmouseout="this.style.paddingLeft='0'; this.style.color='var(--ink)'">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                            <div>
+                                <div class="label-caps" style="margin-bottom:4px;">GitHub</div>
+                                <div style="font-family:'Source Sans 3',sans-serif;font-size:0.9rem;font-weight:500;color:var(--ink);">Intekhab Pathan</div>
+                            </div>
+                        </div>
+                        <span class="label-caps" style="color:var(--purple);opacity:0.6;">Explore →</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="gsap-fade-up">
+                <div class="label-caps" style="margin-bottom:28px;">Send a message</div>
+
+                <div id="contact-success" style="display:none;padding:48px 0;text-align:center;">
+                    <div class="display-md" style="color:var(--orange);margin-bottom:12px;">Sent.</div>
+                    <p class="body-text">Your message has been dispatched. Your mail client should open shortly.</p>
+                    <div class="magnetic-wrap"><button id="reset-form-btn" class="btn" style="margin-top:28px;">← Reset</button></div>
+                </div>
+
+                <form id="contact-form" style="display:flex;flex-direction:column;gap:28px;">
+                    <div>
+                        <label class="label-caps" style="display:block;margin-bottom:10px;">Your Name</label>
+                        <input type="text" id="entry-name" required placeholder="Full name" class="mac-input" />
+                    </div>
+                    <div>
+                        <label class="label-caps" style="display:block;margin-bottom:10px;">Email Address</label>
+                        <input type="email" id="entry-email" required placeholder="your@email.com" class="mac-input" />
+                    </div>
+                    <div>
+                        <label class="label-caps" style="display:block;margin-bottom:10px;">Message</label>
+                        <textarea id="entry-message" required rows="4" placeholder="What are you working on?" style="background:transparent;border:1px solid var(--rule);color:var(--ink);font-family:'Source Sans 3',sans-serif;font-size:0.95rem;font-weight:300;outline:none;width:100%;padding:12px;resize:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--rule)'"></textarea>
+                    </div>
+                    <div class="magnetic-wrap" style="align-self: flex-start;">
+                        <button type="submit" class="btn btn-filled" style="justify-content:center;">Send Message →</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer style="background:var(--paper);padding:36px 0;border-top:1px solid var(--rule);">
+    <div style="max-width:1152px;margin:0 auto;padding:0 40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div class="theme-grad-v" style="width:6px;height:24px;border-radius:99px;"></div>
+            <span style="font-family:'Source Sans 3',sans-serif;font-weight:500;font-size:0.9rem;color:var(--ink);">Intekhab Pathan</span>
+        </div>
+        <div class="label-caps" style="color:var(--ink-light); opacity:0.5;">Designed with precision · Pune, India · 2026</div>
+        <div style="display:flex;align-items:center;gap:24px;">
+            <a href="https://github.com/intekhab-pathan" target="_blank" class="label-caps" style="color:var(--ink-light);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--ink-light)'">GitHub</a>
+            <a href="https://linkedin.com/in/intekhab-pathan" target="_blank" class="label-caps" style="color:var(--ink-light);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--ink-light)'">LinkedIn</a>
+            <div style="display:flex;align-items:center;gap:6px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;box-shadow: 0 0 8px var(--green);"></span>
+                <span class="label-caps" style="color:var(--ink-light);">Online</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ── GSAP INITIALIZATION ──
+gsap.registerPlugin(ScrollTrigger);
+
+// Initial Hero Animations (Scenic Entrance)
+window.addEventListener('load', () => {
+    const tl = gsap.timeline();
+    
+    // Animate Sky/Atmosphere elements first
+    tl.fromTo(".hero-sun-glow", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 3, ease: "power2.out" })
+      .fromTo(".hero-sun-core", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 2.5, ease: "power2.out" }, "-=2.5")
+      .fromTo(".anime-stars", { opacity: 0 }, { opacity: 0.7, duration: 2 }, "-=2")
+      
+      // Animate the hills sliding up to create depth
+      .fromTo(".layer-far-wrap", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=2")
+      .fromTo(".layer-mid-wrap", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8")
+      .fromTo(".layer-front-wrap", { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.6")
+      
+      // Finally fade in UI elements
+      .to(".gsap-fade-in", { opacity: 1, duration: 1.2, stagger: 0.1, ease: "power2.out" }, "-=1")
+      .to("#hero .gsap-fade-up", { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power2.out" }, "-=0.8");
+      
+    // Animate Hero branches on load
+    const heroTl = gsap.timeline({ delay: 1.5 });
+    heroTl.to("#hero-branches .branch-line-h", { scaleX: 1, opacity: 1, duration: 2, stagger: 0.2, ease: "power3.inOut" }, 0)
+          .to("#hero-branches .branch-line-v", { scaleY: 1, opacity: 1, duration: 2, stagger: 0.2, ease: "power3.inOut" }, 0);
+          
+    // Generate Anime Embers
+    const emberContainer = document.querySelector('.embers-container');
+    if (emberContainer) {
+        for (let i = 0; i < 40; i++) {
+            let ember = document.createElement('div');
+            ember.className = 'ember';
+            // Random horizontal placement
+            ember.style.left = (Math.random() * 100) + 'vw';
+            // Random bottom placement (start low in grass)
+            ember.style.bottom = (Math.random() * 20) + 'vh';
+            // Random size
+            ember.style.width = (Math.random() * 4 + 2) + 'px';
+            ember.style.height = ember.style.width;
+            // Random duration and delay
+            ember.style.setProperty('--dur', (Math.random() * 4 + 3) + 's');
+            ember.style.animationDelay = (Math.random() * 5) + 's';
+            emberContainer.appendChild(ember);
+        }
+    }
+    
+    // Mouse Parallax for Hero Depth
+    const hero = document.getElementById('hero');
+    hero.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        
+        // Target the inner SVG specifically for mouse movement so it doesn't fight ScrollTrigger
+        gsap.to(".layer-far", { x: x * 0.3, y: y * 0.3, duration: 1, ease: "power1.out", overwrite: "auto" });
+        gsap.to(".layer-mid", { x: x * 0.8, y: y * 0.8, duration: 1, ease: "power1.out", overwrite: "auto" });
+        gsap.to(".layer-front", { x: x * 1.5, y: y * 1.5, duration: 1, ease: "power1.out", overwrite: "auto" });
+        gsap.to(".hero-sun-core, .hero-sun-glow", { x: x * -0.5, y: y * -0.5, duration: 1, ease: "power1.out", overwrite: "auto" });
+    });
+});
+
+// Scroll Reveal Animations
+gsap.utils.toArray('section:not(#hero) .gsap-fade-up').forEach((element) => {
+    gsap.to(element, {
+        y: 0, opacity: 1, duration: 1.2, ease: "power2.out",
+        scrollTrigger: {
+            trigger: element,
+            start: "top 85%",
+            toggleActions: "play none none none"
+        }
+    });
+});
+
+// Parallax Hero Elements on Scroll (Targets wrappers so it doesn't fight the mousemove)
+gsap.to("#hero-num", { yPercent: -30, ease: "none", scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true } });
+gsap.to(".hero-sun-wrap", { yPercent: 40, ease: "none", scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true } });
+
+gsap.to(".layer-far-wrap", { yPercent: 15, ease: "none", scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true } });
+gsap.to(".layer-mid-wrap", { yPercent: 30, ease: "none", scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true } });
+gsap.to(".layer-front-wrap", { yPercent: 45, ease: "none", scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true } });
+
+// ── THEME BRANCHING ON SCROLL ──
+gsap.utils.toArray('section:not(#hero)').forEach(sec => {
+    const linesH = sec.querySelectorAll('.branch-line-h');
+    const linesV = sec.querySelectorAll('.branch-line-v');
+
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: sec,
+            start: "top 75%",
+            toggleActions: "play none none none"
+        }
+    });
+
+    if(linesH.length) tl.to(linesH, { scaleX: 1, opacity: 1, duration: 2, ease: "power3.inOut", stagger: 0.2 }, 0);
+    if(linesV.length) tl.to(linesV, { scaleY: 1, opacity: 1, duration: 2, ease: "power3.inOut", stagger: 0.2 }, 0);
+});
+
+// ── MAGNETIC BUTTONS ──
+document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
+    const btn = wrap.querySelector('.btn');
+    if(!btn) return;
+    wrap.addEventListener('mousemove', e => {
+        const rect = wrap.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.3, ease: 'power2.out' });
+    });
+    wrap.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+    });
+});
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+    const m = document.getElementById('mobile-menu');
+    const btn = document.getElementById('mobile-btn');
+    const open = m.style.display === 'flex';
+    m.style.display = open ? 'none' : 'flex';
+    
+    // Update SVG in button depending on state
+    if (open) {
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+    } else {
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
+    }
+}
+function closeMenu() {
+    document.getElementById('mobile-menu').style.display = 'none';
+    document.getElementById('mobile-btn').innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>';
+}
+
+// Close mobile menu gracefully on any link click
+document.querySelectorAll('.nav-links a, .nav-cta, #mobile-menu a').forEach(a => {
+    a.addEventListener('click', () => {
+        closeMenu();
+    });
+});
+
+// ── CONTACT FORM ──
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('entry-name').value;
+    const email = document.getElementById('entry-email').value;
+    const message = document.getElementById('entry-message').value;
+    const subject = encodeURIComponent('Portfolio Inquiry from ' + name);
+    const body = encodeURIComponent('From: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message);
+    window.location.href = 'mailto:intekhabpathan125@gmail.com?subject=' + subject + '&body=' + body;
+    this.style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+    
+    // Animate success message
+    gsap.fromTo("#contact-success", {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.6});
+});
+
+document.getElementById('reset-form-btn').addEventListener('click', function() {
+    document.getElementById('contact-success').style.display = 'none';
+    const form = document.getElementById('contact-form');
+    form.style.display = 'flex';
+    form.reset();
+    gsap.fromTo(form, {opacity: 0}, {opacity: 1, duration: 0.6});
+});
+</script>
+</body>
+</html>
