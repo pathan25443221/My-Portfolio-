@@ -8,8 +8,8 @@ export default function Footer() {
                 </div>
                 <div className="label-caps" style={{ color: 'var(--ink-light)', opacity: 0.5 }}>Designed with precision · Pune, India · 2026</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-                    <a href="https://github.com/intekhab-pathan" target="_blank" rel="noreferrer" className="label-caps" style={{ color: 'var(--ink-light)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = 'var(--ink-light)'}>GitHub</a>
-                    <a href="https://linkedin.com/in/intekhab-pathan" target="_blank" rel="noreferrer" className="label-caps" style={{ color: 'var(--ink-light)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = 'var(--ink-light)'}>LinkedIn</a>
+                    <a href="https://github.com/pathan25443221" target="_blank" rel="noreferrer" className="label-caps" style={{ color: 'var(--ink-light)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = 'var(--ink-light)'}>GitHub</a>
+                    <a href="https://www.linkedin.com/in/intekhabpathan/" target="_blank" rel="noreferrer" className="label-caps" style={{ color: 'var(--ink-light)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = 'var(--ink-light)'}>LinkedIn</a>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)', display: 'inline-block', boxShadow: '0 0 8px var(--green)' }}></span>
                         <span className="label-caps" style={{ color: 'var(--ink-light)' }}>Online</span>

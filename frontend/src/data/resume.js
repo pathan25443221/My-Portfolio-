@@ -4,9 +4,9 @@ export const personalInfo = {
     phone: "8871171713",
     location: "Pune, India",
     linkedin: "Intekhab Pathan",
-    linkedinUrl: "https://www.linkedin.com/in/intekhab-pathan",
+    linkedinUrl: "https://www.linkedin.com/in/intekhabpathan/",
     github: "Intekhab Pathan",
-    githubUrl: "https://github.com/intekhab-pathan",
+    githubUrl: "https://github.com/pathan25443221",
     resumeUrl: null,
 };
 
