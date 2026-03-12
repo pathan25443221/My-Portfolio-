@@ -1,0 +1,127 @@
+# ============================================================
+#   ROOT .gitignore — My-Portfolio
+#   Covers: Frontend (React/Vite) + Backend (Python/FastAPI)
+# ============================================================
+
+# ──────────────────────────────────────
+# 🔐 Environment / Secrets
+# ──────────────────────────────────────
+.env
+.env.*
+!.env.example          # Keep the example template
+*.pem
+*.key
+*.cert
+secrets/
+
+# ──────────────────────────────────────
+# 📦 Node / Frontend
+# ──────────────────────────────────────
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+frontend/dist/
+frontend/.vite/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Cache
+.cache/
+.parcel-cache/
+*.local
+
+# ──────────────────────────────────────
+# 🐍 Python / Backend
+# ──────────────────────────────────────
+
+# Virtual environments
+venv/
+backend/venv/
+.venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.coveragerc
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+
+# ──────────────────────────────────────
+# 🗄️ Databases & Data Files
+# ──────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+chat_logs.db
+backend/data/*.json   # Generated data — keep structure, ignore content
+!backend/data/.gitkeep
+
+# ──────────────────────────────────────
+# 🖥️ Operating System
+# ──────────────────────────────────────
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.exe
+*.lnk
+
+# Linux
+*~
+
+# ──────────────────────────────────────
+# 🛠️ Editors & IDEs
+# ──────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json   # Share recommended extensions
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+
+# JetBrains
+*.iml
+.idea/
+
+# ──────────────────────────────────────
+# 📋 Misc
+# ──────────────────────────────────────
+*.bak
+*.tmp
+*.temp
+*.orig
+.yarn/cache
+.yarn/unplugged

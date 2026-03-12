@@ -1,0 +1,38 @@
+# ──────────────────────────────────────
+# Backend (Python / FastAPI) .gitignore
+# ──────────────────────────────────────
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+chat_logs.db
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checking
+.mypy_cache/
+
+# OS
+.DS_Store
+Thumbs.db
