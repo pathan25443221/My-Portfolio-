@@ -29,7 +29,8 @@ export default function Chatbot() {
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:8000/api/chat', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${apiUrl}/api/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +49,7 @@ export default function Chatbot() {
             setMessages(prev => [...prev, { role: 'assistant', text: data.reply }]);
         } catch (error) {
             console.error('Chat error:', error);
-            setMessages(prev => [...prev, { role: 'assistant', text: "Error: Could not connect to the backend agent. Ensure the API server is running on port 8000." }]);
+            setMessages(prev => [...prev, { role: 'assistant', text: "Error: Could not connect to the backend agent. Please try again later." }]);
         } finally {
             setIsLoading(false);
         }
