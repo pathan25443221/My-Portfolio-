@@ -1,14 +1,16 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
+    # --- Required --- set these as environment variables in Railway dashboard
     openrouter_api_key: str
+
+    # --- Optional with safe defaults ---
     llm_model_name: str = "meta-llama/llama-3.1-8b-instruct"
     database_url: str = "sqlite+aiosqlite:///./chat_logs.db"
-    # Railway frontend service URL — set this env var in Railway dashboard
-    frontend_url: str = "http://localhost:5173"
-    
-    # Automatically loads variables from the .env file
+    port: int = 8000
+
+    # Automatically loads from .env locally; env vars take precedence on Railway
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-# Instantiate the settings so it can be imported anywhere in the app
+# Instantiate once — imported everywhere via `from config.settings import settings`
 settings = Settings()

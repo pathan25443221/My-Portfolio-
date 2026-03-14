@@ -8,7 +8,3 @@ async def get_resume(resume_svc: ResumeService = Depends(get_resume_service)):
     """Serves the raw structured JSON representation of the candidate's portfolio."""
     return resume_svc.get_all()
 
-@router.get("/health")
-async def health_check():
-    """Uptime endpoint to verify backend service status."""
-    return {"status": "healthy"}
