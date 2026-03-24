@@ -3420,10 +3420,10 @@
             try {
                 // Auto-detect environment: use localhost for dev, and Railway URL for production
                 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                // ⚠️ IMPORTANT: Replace the placeholder below with your actual Railway backend URL after deploying!
+                // Railway backend URL
                 const apiUrl = isLocal 
                     ? 'http://localhost:8000/api/chat' 
-                    : 'https://YOUR-BACKEND.up.railway.app/api/chat';
+                    : 'https://intekhab-portfolio-production.up.railway.app/api/chat';
 
                 const res = await fetch(apiUrl, {
                     method: 'POST',
