@@ -3418,7 +3418,14 @@
             const thinking = addChatMsg('<em style="opacity:0.5; font-size: 0.8rem;">Thinking...</em>', 'ai');
             
             try {
-                const res = await fetch('http://localhost:8000/api/chat', {
+                // Auto-detect environment: use localhost for dev, and Railway URL for production
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                // ⚠️ IMPORTANT: Replace the placeholder below with your actual Railway backend URL after deploying!
+                const apiUrl = isLocal 
+                    ? 'http://localhost:8000/api/chat' 
+                    : 'https://YOUR-BACKEND.up.railway.app/api/chat';
+
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
@@ -3433,7 +3440,7 @@
                 thinking.innerHTML = data.reply;
             } catch (err) {
                 console.error('Chat Error:', err);
-                thinking.innerHTML = '<span style="color:#FF6B6B">Sorry, I could not reach the backend server. Please ensure it is running on port 8000.</span>';
+                thinking.innerHTML = '<span style="color:#FF6B6B">Sorry, I could not reach the backend server. If you are in production, ensure you replaced the API URL placeholder in index.html.</span>';
             } finally {
                 chatInput.disabled = false;
                 chatSend.disabled = false;
