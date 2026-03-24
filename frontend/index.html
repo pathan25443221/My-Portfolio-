@@ -433,7 +433,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid;
             border-radius: 40px;
             padding: 8px 16px;
@@ -450,11 +450,11 @@
         }
 
         .ask-ai-btn:hover {
-            background: rgba(255,255,255,0.1) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
-        
+
         .ask-ai-btn svg {
             width: 14px;
             height: 14px;
@@ -1581,7 +1581,7 @@
             padding: 36px;
             display: flex;
             flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .proj-video-wrap {
@@ -1591,10 +1591,10 @@
             min-height: 200px;
             border-radius: 6px;
             overflow: hidden;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.07);
             flex-shrink: 0;
-            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .proj-video {
@@ -1609,11 +1609,11 @@
             position: absolute;
             bottom: 8px;
             right: 8px;
-            background: rgba(0,0,0,0.55);
+            background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 4px;
             width: 28px;
             height: 28px;
@@ -1634,11 +1634,13 @@
         }
 
         .proj-video-expand:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         /* Expanded card spans full grid row, side-by-side layout */
-        .proj-grid          { grid-auto-rows: auto; }
+        .proj-grid {
+            grid-auto-rows: auto;
+        }
 
         .mac-card.proj-card-expanded {
             grid-column: 1 / -1;
@@ -1892,7 +1894,10 @@
                         </div>
                         <h2 class="display-lg">About<br><em class="dyn-text">the developer.</em></h2>
                         <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('About')">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                            </svg>
                             Ask AI
                         </button>
                     </div>
@@ -2050,8 +2055,12 @@
                     </div>
                     <div class="section-jp-motif" style="align-items:flex-end;">
                         <h2 class="display-lg">Work<br><em class="dyn-text">history.</em></h2>
-                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('Experience')" style="margin-left: 20px; margin-bottom: 24px;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('Experience')"
+                            style="margin-left: 20px; margin-bottom: 24px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                            </svg>
                             Ask AI
                         </button>
                         <!-- Crossed katana mon -->
@@ -2234,18 +2243,27 @@
                         </div>
                         <span class="label-caps dyn-text">01</span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:12px;">
-                        <div style="font-family:'Source Sans 3',sans-serif;font-size:1.2rem;font-weight:500;color:var(--theme-ink);line-height:1.3;letter-spacing:-0.01em;">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:12px;">
+                        <div
+                            style="font-family:'Source Sans 3',sans-serif;font-size:1.2rem;font-weight:500;color:var(--theme-ink);line-height:1.3;letter-spacing:-0.01em;">
                             Automated Data Analytics Pipeline</div>
-                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('p1')" title="Ask AI about this project" style="margin-top:0; padding:4px 10px; font-size:0.65rem;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> Ask
+                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('p1')"
+                            title="Ask AI about this project"
+                            style="margin-top:0; padding:4px 10px; font-size:0.65rem;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                            </svg> Ask
                         </button>
                     </div>
-                    <p class="body-text proj-desc" style="flex:1;margin-bottom:20px;font-size:0.95rem;">Comprehensive n8n pipeline
+                    <p class="body-text proj-desc" style="flex:1;margin-bottom:20px;font-size:0.95rem;">Comprehensive
+                        n8n pipeline
                         integrating multiple APIs to collect, process, and analyze business data in real-time. Features
                         dynamic report generation with interactive charts via Quickchart.io.</p>
                     <div class="proj-video-wrap">
-                        <video class="proj-video" src="/videos/AutomatedDataAnalyticsPipelineUsingn8n.mp4" muted loop autoplay playsinline preload="auto"></video>
+                        <video class="proj-video" src="/videos/AutomatedDataAnalyticsPipelineUsingn8n.mp4" muted loop
+                            autoplay playsinline preload="auto"></video>
                         <button class="proj-video-expand" title="Expand">⤢</button>
                     </div>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
@@ -2265,18 +2283,27 @@
                         </div>
                         <span class="label-caps dyn-text">02</span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:12px;">
-                        <div style="font-family:'Source Sans 3',sans-serif;font-size:1.2rem;font-weight:500;color:var(--theme-ink);line-height:1.3;letter-spacing:-0.01em;">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:12px;">
+                        <div
+                            style="font-family:'Source Sans 3',sans-serif;font-size:1.2rem;font-weight:500;color:var(--theme-ink);line-height:1.3;letter-spacing:-0.01em;">
                             AI Content Aggregation Pipeline</div>
-                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('p2')" title="Ask AI about this project" style="margin-top:0; padding:4px 10px; font-size:0.65rem;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> Ask
+                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('p2')"
+                            title="Ask AI about this project"
+                            style="margin-top:0; padding:4px 10px; font-size:0.65rem;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                            </svg> Ask
                         </button>
                     </div>
-                    <p class="body-text proj-desc" style="flex:1;margin-bottom:20px;font-size:0.95rem;">AI-powered content
+                    <p class="body-text proj-desc" style="flex:1;margin-bottom:20px;font-size:0.95rem;">AI-powered
+                        content
                         aggregation utilizing n8n with RSS feeds and custom APIs. Incorporates NLP-based classification
                         across domains (finance, tech). Fronted by a pristine JSX dashboard.</p>
                     <div class="proj-video-wrap">
-                        <video class="proj-video" src="/videos/AIContentAggregationAutomationPipeline.mp4" muted loop autoplay playsinline preload="auto"></video>
+                        <video class="proj-video" src="/videos/AIContentAggregationAutomationPipeline.mp4" muted loop
+                            autoplay playsinline preload="auto"></video>
                         <button class="proj-video-expand" title="Expand">⤢</button>
                     </div>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
@@ -2297,18 +2324,27 @@
                         </div>
                         <span class="label-caps dyn-text">03</span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:12px;">
-                        <div style="font-family:'Source Sans 3',sans-serif;font-size:1.2rem;font-weight:500;color:var(--theme-ink);line-height:1.3;letter-spacing:-0.01em;">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:12px;">
+                        <div
+                            style="font-family:'Source Sans 3',sans-serif;font-size:1.2rem;font-weight:500;color:var(--theme-ink);line-height:1.3;letter-spacing:-0.01em;">
                             Facial Recognition Attendance</div>
-                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('p3')" title="Ask AI about this project" style="margin-top:0; padding:4px 10px; font-size:0.65rem;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> Ask
+                        <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('p3')"
+                            title="Ask AI about this project"
+                            style="margin-top:0; padding:4px 10px; font-size:0.65rem;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                            </svg> Ask
                         </button>
                     </div>
-                    <p class="body-text proj-desc" style="flex:1;margin-bottom:20px;font-size:0.95rem;">Automates attendance
+                    <p class="body-text proj-desc" style="flex:1;margin-bottom:20px;font-size:0.95rem;">Automates
+                        attendance
                         tracking via real-time facial recognition using OpenCV's Haar Cascade and LBPH algorithms.
                         Integrated with a Tkinter GUI and PostgreSQL backend.</p>
                     <div class="proj-video-wrap">
-                        <video class="proj-video" src="/videos/FacialRecognitionSystem.mp4" muted loop autoplay playsinline preload="auto"></video>
+                        <video class="proj-video" src="/videos/FacialRecognitionSystem.mp4" muted loop autoplay
+                            playsinline preload="auto"></video>
                         <button class="proj-video-expand" title="Expand">⤢</button>
                     </div>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
@@ -2439,7 +2475,10 @@
                     <h2 class="display-lg">Academic<br><em class="dyn-text">foundation.</em></h2>
                     <br>
                     <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('Education')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                        </svg>
                         Ask AI
                     </button>
                 </div>
@@ -2705,7 +2744,10 @@
                 <h2 class="display-lg">Let's<br><em class="dyn-text">connect.</em></h2>
                 <br>
                 <button class="ask-ai-btn dyn-border dyn-text" onclick="askAI('Contact')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                    </svg>
                     Ask AI
                 </button>
             </div>
@@ -3068,11 +3110,11 @@
             <div class="label-caps" style="color:var(--theme-ink-dim);font-size:0.58rem;">Architected in Pune, India ·
                 2026</div>
             <div style="display:flex;align-items:center;gap:28px;">
-                <a href="https://github.com/intekhab-pathan" target="_blank" class="label-caps"
+                <a href="https://github.com/pathan25443221" target="_blank" class="label-caps"
                     style="color:var(--theme-ink-dim);text-decoration:none;transition:color 0.3s;font-size:0.6rem;"
                     onmouseover="this.style.color='var(--c1)'"
                     onmouseout="this.style.color='var(--theme-ink-dim)'">GitHub</a>
-                <a href="https://linkedin.com/in/intekhab-pathan" target="_blank" class="label-caps"
+                <a href="https://www.linkedin.com/in/intekhabpathan/" target="_blank" class="label-caps"
                     style="color:var(--theme-ink-dim);text-decoration:none;transition:color 0.3s;font-size:0.6rem;"
                     onmouseover="this.style.color='var(--c1)'"
                     onmouseout="this.style.color='var(--theme-ink-dim)'">LinkedIn</a>
@@ -3085,48 +3127,72 @@
     </footer>
 
     <!-- AI CHAT KAKEMONO SCROLL -->
-    <div id="chat-window" style="position:fixed; bottom: 85px; right: 20px; width: 360px; z-index: 10000; display:flex; flex-direction:column; align-items:center; opacity:0; pointer-events:none; transition: opacity 0.3s ease;">
-        
+    <div id="chat-window"
+        style="position:fixed; bottom: 85px; right: 20px; width: 360px; z-index: 10000; display:flex; flex-direction:column; align-items:center; opacity:0; pointer-events:none; transition: opacity 0.3s ease;">
+
         <!-- Top Rod -->
-        <div style="width:100%; height:18px; background:linear-gradient(180deg,#2C1A0E,#1A100A); border-radius:9px; position:relative; z-index:2; box-shadow:0 6px 15px rgba(0,0,0,0.7);">
-            <div style="position:absolute; left:-8px; top:2px; bottom:2px; width:12px; background:#3D2210; border-radius:4px;"></div>
-            <div style="position:absolute; right:-8px; top:2px; bottom:2px; width:12px; background:#3D2210; border-radius:4px;"></div>
+        <div
+            style="width:100%; height:18px; background:linear-gradient(180deg,#2C1A0E,#1A100A); border-radius:9px; position:relative; z-index:2; box-shadow:0 6px 15px rgba(0,0,0,0.7);">
+            <div
+                style="position:absolute; left:-8px; top:2px; bottom:2px; width:12px; background:#3D2210; border-radius:4px;">
+            </div>
+            <div
+                style="position:absolute; right:-8px; top:2px; bottom:2px; width:12px; background:#3D2210; border-radius:4px;">
+            </div>
             <!-- Close Button inside top rod -->
-            <button id="close-chat" style="position:absolute; right:10px; top:-4px; background:none; border:none; color:rgba(245,230,200,0.7); font-size:1.6rem; cursor:pointer; line-height:1; transition: color 0.2s; padding:0;" onmouseover="this.style.color='#F5E6C8'" onmouseout="this.style.color='rgba(245,230,200,0.7)'">&times;</button>
+            <button id="close-chat"
+                style="position:absolute; right:10px; top:-4px; background:none; border:none; color:rgba(245,230,200,0.7); font-size:1.6rem; cursor:pointer; line-height:1; transition: color 0.2s; padding:0;"
+                onmouseover="this.style.color='#F5E6C8'"
+                onmouseout="this.style.color='rgba(245,230,200,0.7)'">&times;</button>
         </div>
 
         <!-- Unrolling Paper (Chat Container) -->
-        <div id="chat-unroll" class="dyn-border" style="width:92%; height:0; overflow:hidden; position:relative; box-shadow:4px 8px 30px rgba(0,0,0,0.8),inset 0 0 30px rgba(0,0,0,0.4); background:linear-gradient(180deg,#1C1610 0%,#171210 40%,#0E0C08 100%); border-left:3px solid rgba(245,230,200,0.15); border-right:3px solid rgba(245,230,200,0.15); display:flex; flex-direction:column; transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
-            
+        <div id="chat-unroll" class="dyn-border"
+            style="width:92%; height:0; overflow:hidden; position:relative; box-shadow:4px 8px 30px rgba(0,0,0,0.8),inset 0 0 30px rgba(0,0,0,0.4); background:linear-gradient(180deg,#1C1610 0%,#171210 40%,#0E0C08 100%); border-left:3px solid rgba(245,230,200,0.15); border-right:3px solid rgba(245,230,200,0.15); display:flex; flex-direction:column; transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+
             <!-- Header -->
-            <div style="padding: 14px 18px; border-bottom: 1px solid rgba(245,230,200,0.1); display:flex; align-items: center; background: rgba(245,230,200,0.03); flex-shrink:0;">
+            <div
+                style="padding: 14px 18px; border-bottom: 1px solid rgba(245,230,200,0.1); display:flex; align-items: center; background: rgba(245,230,200,0.03); flex-shrink:0;">
                 <div style="display:flex; align-items:center; gap: 10px;">
                     <div class="status-dot dyn-bg dyn-glow"></div>
                     <div>
-                        <div style="font-family:'IBM Plex Mono', monospace; font-size: 0.7rem; font-weight:500; color: #F5E6C8; text-transform: uppercase; letter-spacing: 0.12em;">AI Interface</div>
-                        <div style="font-family:'Cormorant Garamond', serif; font-style:italic; font-size:0.8rem; color:rgba(245,230,200,0.7);">Ask me anything about Intekhab</div>
+                        <div
+                            style="font-family:'IBM Plex Mono', monospace; font-size: 0.7rem; font-weight:500; color: #F5E6C8; text-transform: uppercase; letter-spacing: 0.12em;">
+                            AI Interface</div>
+                        <div
+                            style="font-family:'Cormorant Garamond', serif; font-style:italic; font-size:0.8rem; color:rgba(245,230,200,0.7);">
+                            Ask me anything about Intekhab</div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Body -->
-            <div id="chat-body" style="flex:1; padding: 18px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; scroll-behavior:smooth;">
+            <div id="chat-body"
+                style="flex:1; padding: 18px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; scroll-behavior:smooth;">
                 <!-- Welcome message injected by JS -->
             </div>
-            
+
             <!-- Input -->
-            <div style="padding: 12px 14px; border-top: 1px solid rgba(245,230,200,0.1); background: rgba(0,0,0,0.4); display:flex; gap:8px; flex-shrink:0;">
-                <input id="chat-input" type="text" placeholder="Ask something..." class="mac-input dyn-border" style="flex:1; padding: 10px 12px; font-size:0.88rem; border-radius:4px; border:1px solid rgba(245,230,200,0.15); background:rgba(0,0,0,0.5); color:#F5E6C8; outline:none;" />
-                <button id="chat-send" class="btn btn-filled dyn-bg" style="padding: 10px 16px; border-radius:4px; font-weight:600; color:#000; cursor:pointer; flex-shrink:0;">Send</button>
+            <div
+                style="padding: 12px 14px; border-top: 1px solid rgba(245,230,200,0.1); background: rgba(0,0,0,0.4); display:flex; gap:8px; flex-shrink:0;">
+                <input id="chat-input" type="text" placeholder="Ask something..." class="mac-input dyn-border"
+                    style="flex:1; padding: 10px 12px; font-size:0.88rem; border-radius:4px; border:1px solid rgba(245,230,200,0.15); background:rgba(0,0,0,0.5); color:#F5E6C8; outline:none;" />
+                <button id="chat-send" class="btn btn-filled dyn-bg"
+                    style="padding: 10px 16px; border-radius:4px; font-weight:600; color:#000; cursor:pointer; flex-shrink:0;">Send</button>
             </div>
         </div>
 
         <!-- Bottom Rod & Tassel -->
-        <div id="chat-unroll-bottom" style="width:100%; display:flex; flex-direction:column; align-items:center; transform: translateY(-100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
-            <div style="width:96%; height:14px; background:linear-gradient(180deg,#2C1A0E,#1A100A); border-radius:7px; box-shadow:0 8px 15px rgba(0,0,0,0.8);"></div>
+        <div id="chat-unroll-bottom"
+            style="width:100%; display:flex; flex-direction:column; align-items:center; transform: translateY(-100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+            <div
+                style="width:96%; height:14px; background:linear-gradient(180deg,#2C1A0E,#1A100A); border-radius:7px; box-shadow:0 8px 15px rgba(0,0,0,0.8);">
+            </div>
             <div style="display:flex; gap:10px; justify-content:center; padding-top:4px;">
                 <div style="width:2px; height:28px; background:linear-gradient(180deg,#C0282C,transparent);"></div>
-                <div style="width:2px; height:36px; background:linear-gradient(180deg,#C0282C,transparent); margin-top:-8px;"></div>
+                <div
+                    style="width:2px; height:36px; background:linear-gradient(180deg,#C0282C,transparent); margin-top:-8px;">
+                </div>
                 <div style="width:2px; height:28px; background:linear-gradient(180deg,#C0282C,transparent);"></div>
             </div>
         </div>
@@ -3138,7 +3204,8 @@
         title="Open AI Chat"
         onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.7)';"
         onmouseout="this.style.transform=document.getElementById('chat-fab').classList.contains('open') ? 'scale(1.05)' : 'scale(1)'; this.style.boxShadow='0 8px 30px rgba(0,0,0,0.5)';">
-        <img id="fab-icon" src="scroll(1).png" alt="Chat" style="width: 28px; height: 28px; transition: transform 0.4s ease; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));" />
+        <img id="fab-icon" src="scroll(1).png" alt="Chat"
+            style="width: 28px; height: 28px; transition: transform 0.4s ease; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));" />
     </button>
 
     <script>
@@ -3301,13 +3368,13 @@
 
         // ── CHAT WINDOW ──
         const chatWindow = document.getElementById('chat-window');
-        const chatBody   = document.getElementById('chat-body');
-        const chatInput  = document.getElementById('chat-input');
-        const chatSend   = document.getElementById('chat-send');
-        const closeBtn   = document.getElementById('close-chat');
-        const fab        = document.getElementById('chat-fab');
-        const fabIcon    = document.getElementById('fab-icon');
-        let chatOpened   = false;
+        const chatBody = document.getElementById('chat-body');
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+        const closeBtn = document.getElementById('close-chat');
+        const fab = document.getElementById('chat-fab');
+        const fabIcon = document.getElementById('fab-icon');
+        let chatOpened = false;
 
         // Move both elements to <html> to escape body's perspective stacking context
         // (same technique used by GSAP letter clones above)
@@ -3337,11 +3404,11 @@
             } else if (skillName) {
                 addChatMsg(`Switching context to <strong>${skillName}</strong>. What would you like to know?`, 'ai');
             }
-            
+
             // Unroll animation
             chatWindow.style.opacity = '1';
             chatWindow.style.pointerEvents = 'auto';
-            
+
             // Wait for opacity to start, then unroll
             setTimeout(() => {
                 document.getElementById('chat-unroll').style.height = '460px';
@@ -3357,7 +3424,7 @@
             // Roll up first
             document.getElementById('chat-unroll').style.height = '0';
             document.getElementById('chat-unroll-bottom').style.transform = 'translateY(-100%)';
-            
+
             // Then fade out
             setTimeout(() => {
                 chatWindow.style.opacity = '0';
@@ -3385,7 +3452,7 @@
                 openChat();
             }
             chatInput.value = '';
-            
+
             const promptMap = {
                 'About': "Tell me about Intekhab's background and what he does.",
                 'Experience': "What is Intekhab's work experience and where does he currently work?",
@@ -3396,9 +3463,9 @@
                 'Contact': "How can I get in touch with Intekhab or what is his current status?",
                 'General': "Tell me more about Intekhab."
             };
-            
+
             chatInput.value = promptMap[topic] || promptMap['General'];
-            
+
             // Allow the chat unroll animation to finish before automatically sending
             setTimeout(() => {
                 if (!chatSend.disabled) sendMessage();
@@ -3409,33 +3476,33 @@
         async function sendMessage() {
             const text = chatInput.value.trim();
             if (!text) return;
-            
+
             chatInput.value = '';
             chatInput.disabled = true;
             chatSend.disabled = true;
-            
+
             addChatMsg(text, 'user');
             const thinking = addChatMsg('<em style="opacity:0.5; font-size: 0.8rem;">Thinking...</em>', 'ai');
-            
+
             try {
                 // Auto-detect environment: use localhost for dev, and Railway URL for production
                 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 // Railway backend URL
-                const apiUrl = isLocal 
-                    ? 'http://localhost:8000/api/chat' 
+                const apiUrl = isLocal
+                    ? 'http://localhost:8000/api/chat'
                     : 'https://intekhab-portfolio-production.up.railway.app/api/chat';
 
                 const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                         message: text,
                         session_id: sessionId
                     })
                 });
-                
+
                 if (!res.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await res.json();
                 thinking.innerHTML = data.reply;
             } catch (err) {
@@ -3826,7 +3893,7 @@
         // ── Project Video: hover-to-play + expand/collapse ──
         document.querySelectorAll('.mac-card').forEach(card => {
             const video = card.querySelector('.proj-video');
-            const btn   = card.querySelector('.proj-video-expand');
+            const btn = card.querySelector('.proj-video-expand');
             if (!video) return;
 
             // Wrap non-video content in a helper div for side-by-side layout
@@ -3846,7 +3913,7 @@
                 e.stopPropagation();
                 const isExpanded = card.classList.toggle('proj-card-expanded');
                 btn.textContent = isExpanded ? '⤡' : '⤢';
-                btn.title       = isExpanded ? 'Collapse' : 'Expand';
+                btn.title = isExpanded ? 'Collapse' : 'Expand';
             });
         });
     </script>
