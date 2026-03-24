@@ -123,7 +123,6 @@ export default function Hero() {
 
             <div className="hero-content">
                 <div className="gsap-fade-up">
-                    <div className="label-caps hero-overline">Level / 99</div>
                     <h1 className="display-xl hero-name" style={{ marginBottom: 4 }}>
                         Intekhab <br /> <em>Pathan.</em>
                     </h1>

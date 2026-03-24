@@ -10,9 +10,8 @@ export default function Experience() {
                 <div className="section-header">
                     <div className="branch-line-h" style={{ bottom: '-1px', transformOrigin: 'right' }}></div>
                     <div className="gsap-fade-up">
-                        <div className="label-caps section-label">
+                        <div className="label-caps section-label" style={{ display: 'none' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                            // 002 — Experience
                         </div>
                         <h2 className="display-lg">Work<br/><em>history.</em></h2>
                     </div>

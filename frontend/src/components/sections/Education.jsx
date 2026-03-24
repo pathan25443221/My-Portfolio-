@@ -10,9 +10,8 @@ export default function Education() {
                 <div className="section-header">
                     <div className="branch-line-h" style={{ bottom: '-1px', transformOrigin: 'center' }}></div>
                     <div className="gsap-fade-up">
-                        <div className="label-caps section-label">
+                        <div className="label-caps section-label" style={{ display: 'none' }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" /></svg>
-                            // 005 — Education
                         </div>
                         <h2 className="display-lg">Academic<br /><em>foundation.</em></h2>
                     </div>

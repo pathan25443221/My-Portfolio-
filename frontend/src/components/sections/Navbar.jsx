@@ -32,8 +32,10 @@ export default function Navbar() {
                 {/* Desktop Links */}
                 <div style={{ display: 'flex', gap: 32 }} className="nav-links">
                     <a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }} className="nav-link">About</a>
+                    <a href="#experience" onClick={(e) => { e.preventDefault(); scrollTo('experience'); }} className="nav-link">Experience</a>
                     <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="nav-link">Work</a>
                     <a href="#skills" onClick={(e) => { e.preventDefault(); scrollTo('skills'); }} className="nav-link">Expertise</a>
+                    <a href="#education" onClick={(e) => { e.preventDefault(); scrollTo('education'); }} className="nav-link">Education</a>
                 </div>
 
                 {/* Desktop CTA */}
@@ -69,8 +71,10 @@ export default function Navbar() {
                         className="open"
                     >
                         <a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }} className="mobile-link">About</a>
+                        <a href="#experience" onClick={(e) => { e.preventDefault(); scrollTo('experience'); }} className="mobile-link">Experience</a>
                         <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="mobile-link">Work</a>
                         <a href="#skills" onClick={(e) => { e.preventDefault(); scrollTo('skills'); }} className="mobile-link">Expertise</a>
+                        <a href="#education" onClick={(e) => { e.preventDefault(); scrollTo('education'); }} className="mobile-link">Education</a>
                         <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} className="mobile-link" style={{ color: 'var(--red)', borderBottom: 'none' }}>Contact</a>
                     </motion.div>
                 )}

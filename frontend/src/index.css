@@ -621,6 +621,24 @@ body {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* ── NAVBAR FIXED ── */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: background 0.3s ease, padding 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+#navbar.scrolled {
+  background: rgba(42, 22, 33, 0.85); /* var(--cream) with opacity */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(226, 180, 189, 0.1);
+}
+
 /* ── NAVBAR LOGO ANIMATION ── */
 .nav-logo-group {
   display: flex;
@@ -778,6 +796,70 @@ body {
   transform: scale(1.1) rotate(5deg);
   color: var(--orange);
 }
+
+/* ── ABOUT SPLIT LAYOUT ── */
+.about-split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.about-left-panel {
+  position: sticky;
+  top: 15vh; /* sticks as you scroll down the about section */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh; /* gives room for the sticky effect */
+}
+
+.profile-hero-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%; /* Adjusts the crop so the face is perfectly centered in the circle */
+  display: block;
+  border-radius: 8px; /* starting shape */
+  transform-origin: center center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  /* smooth scroll-driven morph */
+  transition: border-radius 0.1s linear, transform 0.1s linear, box-shadow 0.3s ease;
+  will-change: border-radius, transform;
+}
+
+.profile-hero-wrapper:hover .profile-hero-img {
+  box-shadow: 0 0 0 2px var(--orange), 0 24px 48px rgba(244, 162, 97, 0.2);
+}
+
+.bento-grid-right {
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* More breathing room */
+}
+
+/* ── BORDERLESS CONTENT ITEMS ── */
+.content-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s ease;
+}
+
+.content-item:hover {
+  transform: translateX(8px);
+}
+
 
 /* ── ELEGANT SKILLS ── */
 .skills-canvas {
@@ -963,7 +1045,8 @@ textarea:focus {
     grid-template-columns: 1fr !important;
   }
 
-  .proj-grid-2 {
+  .proj-grid-2,
+  .proj-detail-grid {
     grid-template-columns: 1fr !important;
   }
 
@@ -1014,6 +1097,23 @@ textarea:focus {
   .bento-wide {
     grid-column: span 1;
     grid-row: span 1;
+  }
+
+  .about-split-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-left-panel {
+    position: relative;
+    top: 0;
+    height: auto;
+    margin-bottom: 24px;
+  }
+
+  .profile-hero-wrapper {
+    max-width: 300px;
+    margin: 0 auto;
   }
 
   .exp-row {
