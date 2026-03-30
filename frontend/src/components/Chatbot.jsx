@@ -2,12 +2,10 @@ import { useState, useRef, useEffect } from 'react';
 
 export default function Chatbot() {
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([
-        { role: 'assistant', text: "Systems online. I am a localized AI agent loaded with Intekhab's portfolio context. What would you like to know?" }
-    ]);
+    const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    // Initialize session ID once per session using Native Web Crypto API
+    const [chatOpened, setChatOpened] = useState(false);
     const [sessionId] = useState(() => crypto.randomUUID());
     const messagesEndRef = useRef(null);
 
@@ -16,11 +14,34 @@ export default function Chatbot() {
     };
 
     useEffect(() => {
-        if (isOpen) scrollToBottom();
-    }, [messages, isOpen]);
+        scrollToBottom();
+    }, [messages]);
+
+    // Handle contextual 'askAI' triggers from other components
+    useEffect(() => {
+        const handleAskAI = (e) => {
+            const { topic } = e.detail;
+            openChat(topic);
+        };
+        window.addEventListener('askAI', handleAskAI);
+        return () => window.removeEventListener('askAI', handleAskAI);
+    }, [chatOpened, isOpen]);
+
+    const openChat = (topic = null) => {
+        setIsOpen(true);
+        if (!chatOpened) {
+            const greeting = topic 
+                ? `Initializing <strong>${topic}</strong> contextual space.<br><br>How can I assist you with this specific technology?`
+                : `こんにちは! I'm Intekhab's AI assistant.<br><br>Ask me anything about his skills, projects, or experience.`;
+            setMessages([{ role: 'assistant', text: greeting }]);
+            setChatOpened(true);
+        } else if (topic) {
+            setMessages(prev => [...prev, { role: 'assistant', text: `Switching context to <strong>${topic}</strong>. What would you like to know?` }]);
+        }
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         if (!input.trim() || isLoading) return;
 
         const userText = input.trim();
@@ -29,27 +50,23 @@ export default function Chatbot() {
         setIsLoading(true);
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-            const response = await fetch(`${apiUrl}/api/chat`, {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const apiUrl = isLocal
+                ? 'http://localhost:8000/api/chat'
+                : 'https://intekhab-portfolio-production.up.railway.app/api/chat';
+
+            const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: userText,
-                    session_id: sessionId
-                }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userText, session_id: sessionId }),
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
+            if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             setMessages(prev => [...prev, { role: 'assistant', text: data.reply }]);
         } catch (error) {
             console.error('Chat error:', error);
-            setMessages(prev => [...prev, { role: 'assistant', text: "Error: Could not connect to the backend agent. Please try again later." }]);
+            setMessages(prev => [...prev, { role: 'assistant', text: '<span style="color:#FF6B6B">Sorry, I could not reach the backend server.</span>' }]);
         } finally {
             setIsLoading(false);
         }
@@ -57,137 +74,99 @@ export default function Chatbot() {
 
     return (
         <>
-            {/* Chat Window */}
-            {isOpen && (
-                <div className="mac-card"
-                    style={{
-                        position: 'fixed',
-                        bottom: 110, // Avoid overlapping the fab
-                        right: 32,
-                        zIndex: 999999,
-                        width: 'calc(100vw - 64px)',
-                        maxWidth: 380,
-                        height: 540,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        padding: 0,
-                        boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
-                        border: '1px solid var(--rule)',
-                        overflow: 'hidden',
-                        animation: 'chat-float-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-                    }}>
+            {/* AI CHAT KAKEMONO SCROLL */}
+            <div id="chat-window" style={{
+                position: 'fixed', bottom: 85, right: 20, width: 360, zIndex: 10000,
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none',
+                transition: 'opacity 0.3s ease'
+            }}>
+                {/* Top Rod */}
+                <div style={{
+                    width: '100%', height: 18, background: 'linear-gradient(180deg,#2C1A0E,#1A100A)',
+                    borderRadius: 9, position: 'relative', zIndex: 2, boxShadow: '0 6px 15px rgba(0,0,0,0.7)'
+                }}>
+                    <div style={{ position: 'absolute', left: -8, top: 2, bottom: 2, width: 12, background: '#3D2210', borderRadius: 4 }} />
+                    <div style={{ position: 'absolute', right: -8, top: 2, bottom: 2, width: 12, background: '#3D2210', borderRadius: 4 }} />
+                    <button onClick={() => setIsOpen(false)} style={{
+                        position: 'absolute', right: 10, top: -4, background: 'none', border: 'none',
+                        color: 'rgba(245,230,200,0.7)', fontSize: '1.6rem', cursor: 'pointer', lineHeight: 1, padding: 0
+                    }}>&times;</button>
+                </div>
+
+                {/* Unrolling Paper */}
+                <div className="chat-scroll-unroll dyn-border" style={{
+                    width: '92%', height: isOpen ? 480 : 0, position: 'relative',
+                    boxShadow: '4px 8px 30px rgba(0,0,0,0.8),inset 0 0 30px rgba(0,0,0,0.4)',
+                    background: 'linear-gradient(180deg,#1C1610 0%,#171210 40%,#0E0C08 100%)',
+                    borderLeft: '3px solid rgba(245,230,200,0.15)', borderRight: '3px solid rgba(245,230,200,0.15)',
+                    display: 'flex', flexDirection: 'column'
+                }}>
                     {/* Header */}
-                    <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--rule)', background: 'rgba(26, 12, 20, 0.95)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 4, background: 'var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" strokeWidth="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
-                            </div>
+                    <div style={{ padding: '14px 18px', borderBottom: '1px solid rgba(245,230,200,0.1)', display: 'flex', alignItems: 'center', background: 'rgba(245,230,200,0.03)', flexShrink: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                            <div className="status-dot dyn-bg dyn-glow" />
                             <div>
-                                <div className="label-caps" style={{ color: 'var(--ink)', marginBottom: 2 }}>Contextual Agent</div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                    <span className="status-dot"></span>
-                                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.65rem', color: 'var(--green)' }}>Llama 3.3 70B</span>
-                                </div>
+                                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.7rem', fontWeight: 500, color: '#F5E6C8', textTransform: 'uppercase', letterSpacing: '0.12em' }}>AI Interface</div>
+                                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '0.8rem', color: 'rgba(245,230,200,0.7)' }}>Contextual Portfolio Agent</div>
                             </div>
                         </div>
-                        <button onClick={() => setIsOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--ink-light)', cursor: 'pointer', padding: 4 }}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                        </button>
                     </div>
 
-                    {/* Messages Area */}
-                    <div className="chat-transcript" style={{ flex: 1, padding: 20, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 16, background: 'var(--paper)' }}>
+                    {/* Body */}
+                    <div style={{ flex: 1, padding: 18, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
                         {messages.map((m, i) => (
-                            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                                <div style={{
-                                    maxWidth: '85%',
-                                    padding: '12px 16px',
-                                    borderRadius: m.role === 'user' ? '12px 12px 0 12px' : '0 12px 12px 12px',
-                                    background: m.role === 'user' ? 'var(--cream-3)' : 'var(--cream-2)',
-                                    color: 'var(--ink)',
-                                    lineHeight: 1.5,
-                                    fontSize: '0.9rem',
-                                    border: m.role === 'user' ? 'none' : '1px solid var(--rule)',
-                                    whiteSpace: 'pre-wrap' // Allows markdown-like breaks
-                                }}>
-                                    {m.text}
-                                </div>
-                            </div>
+                            <div key={i} style={{
+                                alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
+                                background: m.role === 'user' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)',
+                                padding: '12px 16px', borderRadius: m.role === 'user' ? '12px 12px 0 12px' : '0 12px 12px 12px',
+                                fontFamily: "'Source Sans 3',sans-serif", fontSize: '0.9rem', color: 'var(--theme-ink)',
+                                lineHeight: 1.5, border: '1px solid rgba(255,255,255,0.1)', maxWidth: '85%',
+                                borderRight: m.role === 'user' ? '2px solid var(--c1)' : '1px solid rgba(255,255,255,0.1)',
+                                borderLeft: m.role === 'assistant' ? '2px solid var(--c1)' : '1px solid rgba(255,255,255,0.1)'
+                            }} dangerouslySetInnerHTML={{ __html: m.text }} />
                         ))}
                         {isLoading && (
-                            <div style={{ alignSelf: 'flex-start', display: 'flex', gap: 4, padding: '12px 16px', background: 'var(--cream-2)', borderRadius: '0 12px 12px 12px', border: '1px solid var(--rule)' }}>
-                                <span className="pulse-dot" style={{ background: 'var(--ink-light)' }}></span>
-                                <span className="pulse-dot" style={{ background: 'var(--ink-light)', animationDelay: '0.2s' }}></span>
-                                <span className="pulse-dot" style={{ background: 'var(--ink-light)', animationDelay: '0.4s' }}></span>
-                            </div>
+                            <div style={{ alignSelf: 'flex-start', padding: '8px 16px', fontStyle: 'italic', opacity: 0.5, fontSize: '0.8rem' }}>Thinking...</div>
                         )}
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Input Area */}
-                    <form onSubmit={handleSubmit} style={{ padding: '16px 20px', background: 'rgba(26, 12, 20, 0.95)', borderTop: '1px solid var(--rule)', display: 'flex', gap: 12 }}>
-                        <input
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            placeholder="Ask about my expertise..."
-                            disabled={isLoading}
-                            style={{
-                                flex: 1,
-                                background: 'transparent',
-                                border: 'none',
-                                outline: 'none',
-                                color: 'var(--ink)',
-                                fontFamily: "'Source Sans 3', sans-serif",
-                                fontSize: '0.95rem'
-                            }}
-                        />
-                        <button type="submit" disabled={isLoading || !input.trim()} style={{
-                            background: 'var(--ink)',
-                            color: 'var(--paper)',
-                            border: 'none',
-                            width: 32,
-                            height: 32,
-                            borderRadius: 4,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: (isLoading || !input.trim()) ? 'not-allowed' : 'pointer',
-                            opacity: (isLoading || !input.trim()) ? 0.5 : 1
-                        }}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
-                        </button>
+                    {/* Input */}
+                    <form onSubmit={handleSubmit} style={{ padding: '12px 14px', borderTop: '1px solid rgba(245,230,200,0.1)', background: 'rgba(0,0,0,0.4)', display: 'flex', gap: 8, flexShrink: 0 }}>
+                        <input type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask something..." style={{
+                            flex: 1, padding: '10px 12px', fontSize: '0.88rem', borderRadius: 4, border: '1px solid rgba(245,230,200,0.15)',
+                            background: 'rgba(0,0,0,0.5)', color: '#F5E6C8', outline: 'none'
+                        }} />
+                        <button type="submit" className="btn btn-filled dyn-bg" style={{ padding: '10px 16px', borderRadius: 4, fontWeight: 600, color: '#000', cursor: 'pointer' }}>Send</button>
                     </form>
                 </div>
-            )}
 
-            {/* Floating Action Button */}
-            <div style={{ position: 'fixed', bottom: 32, right: 32, zIndex: 999999 }}>
-                <button
-                    onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen); }}
-                    style={{
-                        width: 64,
-                        height: 64,
-                        borderRadius: '50%',
-                        background: 'var(--ink)',
-                        border: 'none',
-                        boxShadow: isOpen ? 'none' : '0 8px 24px rgba(255, 240, 230, 0.2)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        position: 'relative',
-                        transition: 'transform 0.2s ease',
-                        transform: isOpen ? 'rotate(90deg) scale(0.9)' : 'rotate(0deg) scale(1)'
-                    }}
-                >
-                    {/* Embedded SVG icon for chat */}
-                    {isOpen ? (
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                    ) : (
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--paper)" strokeWidth="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
-                    )}
-                </button>
+                {/* Bottom Rod */}
+                <div style={{
+                    width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center',
+                    transform: isOpen ? 'translateY(0)' : 'translateY(-100%)', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}>
+                    <div style={{ width: '96%', height: 14, background: 'linear-gradient(180deg,#2C1A0E,#1A100A)', borderRadius: 7, boxShadow: '0 8px 15px rgba(0,0,0,0.8)' }} />
+                    <div style={{ display: 'flex', gap: 10, justifyContent: 'center', paddingTop: 4 }}>
+                        <div style={{ width: 2, height: 28, background: 'linear-gradient(180deg,var(--c2),transparent)' }} />
+                        <div style={{ width: 2, height: 36, background: 'linear-gradient(180deg,var(--c2),transparent)', marginTop: -8 }} />
+                        <div style={{ width: 2, height: 28, background: 'linear-gradient(180deg,var(--c2),transparent)' }} />
+                    </div>
+                </div>
+            </div>
+
+            {/* Floating Chat FAB */}
+            <div id="chat-fab" onClick={() => isOpen ? setIsOpen(false) : openChat()} style={{
+                position: 'fixed', bottom: 20, right: 20, width: 56, height: 56, borderRadius: '50%',
+                border: '1px solid var(--rule)', background: 'rgba(12,10,14,0.95)', backdropFilter: 'blur(12px)',
+                cursor: 'pointer', zIndex: 10001, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 8px 30px rgba(0,0,0,0.5)', transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)'
+            }}>
+                <img src="/scroll(1).png" alt="Chat" style={{
+                    width: 28, height: 28, transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.4s ease', objectFit: 'contain'
+                }} />
             </div>
         </>
     );

@@ -18,21 +18,60 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
 
   useEffect(() => {
-    // ── THEME BRANCHING ON SCROLL ──
-    const sections = document.querySelectorAll('section:not(#hero)');
+    // ── FORCE HERO START ON LOAD ──
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    // ── THEME & DIVIDERS ON SCROLL ──
+    const sections = document.querySelectorAll('section');
+    
+    // Intersection Observer for updating global theme step
+    const themeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const step = entry.target.getAttribute('data-bg-step');
+          if (step) {
+            document.body.setAttribute('data-current-step', step);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
     sections.forEach(sec => {
-      const linesH = sec.querySelectorAll('.branch-line-h');
-      const linesV = sec.querySelectorAll('.branch-line-v');
+      themeObserver.observe(sec);
+
+      // Katana Dividers Animation
+      const linesH = sec.querySelectorAll('.katana-divider-h');
+      const linesV = sec.querySelectorAll('.katana-divider-v');
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sec,
-          start: "top 75%",
+          start: "top 80%",
           toggleActions: "play none none none"
         }
       });
-      if (linesH.length) tl.to(linesH, { scaleX: 1, opacity: 1, duration: 2, ease: "power3.inOut", stagger: 0.2 }, 0);
-      if (linesV.length) tl.to(linesV, { scaleY: 1, opacity: 1, duration: 2, ease: "power3.inOut", stagger: 0.2 }, 0);
+
+      if (linesH.length) {
+        tl.to(linesH, { 
+          scaleX: 1, 
+          opacity: 1, 
+          duration: 1.5, 
+          ease: "power4.out",
+          stagger: 0.2
+        }, 0);
+      }
+      if (linesV.length) {
+        tl.to(linesV, { 
+          scaleY: 1, 
+          opacity: 1, 
+          duration: 1.5, 
+          ease: "power4.out",
+          stagger: 0.2
+        }, 0);
+      }
     });
 
     // ── FADE UPs ──
@@ -77,6 +116,7 @@ export default function App() {
     });
 
     return () => {
+      sections.forEach(sec => themeObserver.unobserve(sec));
       window.removeEventListener('resize', checkMobile);
       ScrollTrigger.getAll().forEach(t => t.kill());
       document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
